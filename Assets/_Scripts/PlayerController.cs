@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float maxVelocity = 10.0f;
     [SerializeField] private float acelleration = 50.0f;
     [SerializeField] private float desacelleration = 50.0f;
+    [SerializeField] private float gravityForce = 10.0f;
     private float moveInput = 0.0f;
 
     private void Update() {
@@ -20,6 +21,8 @@ public class PlayerController : MonoBehaviour
         else {
             Break();
         }
+
+        Gravity();
     }
 
     private void Move(float direction) {
@@ -31,5 +34,9 @@ public class PlayerController : MonoBehaviour
 
     private void Break() {
         rig.AddForce(desacelleration * Time.deltaTime * -rig.velocity, ForceMode2D.Force);
+    }
+
+    private void Gravity() {
+        rig.AddForce(gravityForce * Time.deltaTime * Vector2.down, ForceMode2D.Force);
     }   
 }
