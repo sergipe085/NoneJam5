@@ -22,6 +22,10 @@ public class PlayerStateMachine : StateMachine
 
     protected override void Update() {
         base.Update();
+
+        if (Input.GetMouseButtonDown(0)) {
+            SwitchState(new PlayerAttackState(this));
+        }
     }
 
     public void Gravity(float deltaTime) {

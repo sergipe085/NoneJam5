@@ -497,7 +497,7 @@ GameObject:
   - component: {fileID: 2063742748}
   - component: {fileID: 2063742749}
   - component: {fileID: 2063742747}
-  - component: {fileID: 2063742750}
+  - component: {fileID: 2063742751}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -576,17 +576,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9206286083127447962}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e15fb118d03011d469b32efa9a19a36c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rig: {fileID: 2063742748}
-  maxVelocity: 10
-  acelleration: 100
-  desacelleration: 400
-  gravityForce: 10000
---- !u!114 &2063742750
+  moverComponent: {fileID: 2063742751}
+  jumpComponent: {fileID: 0}
+  isJumping: 0
+--- !u!114 &2063742751
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -595,12 +593,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 9206286083127447962}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14b2b13df73e7e145af6e8d94c4c2c1e, type: 3}
+  m_Script: {fileID: 11500000, guid: d94f13b6d1ad4f94c88eff83255a6a62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <rig>k__BackingField: {fileID: 2063742748}
-  maxVelocity: 10
-  acelleration: 100
-  desacelleration: 400
-  gravityForce: 3500
-  jumpForce: 30
+  rig: {fileID: 2063742748}
+  maxVelocity: 8
+  acelleration: 150
+  desacelleration: 500
+  gravityForce: 2500
+  jumpForce: 20
+  stopJumpForce: 0.2

@@ -4,39 +4,61 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D rig = null;
+    [SerializeField] private Mover moverComponent = null;
+    [SerializeField] private Attacker attackerComponent = null;
 
-    [SerializeField] private float maxVelocity = 10.0f;
-    [SerializeField] private float acelleration = 50.0f;
-    [SerializeField] private float desacelleration = 50.0f;
-    [SerializeField] private float gravityForce = 10.0f;
-    private float moveInput = 0.0f;
+    private Vector2 moveInput = Vector2.zero;
+    private bool jumpInput = false;
+    private bool attackInput = false;
+    
+    private bool isJumping = false;
 
     private void Update() {
-        moveInput = Input.GetAxisRaw("Horizontal");
+        moveInput.x = Input.GetAxisRaw("Horizontal");
+        moveInput.y = Input.GetAxisRaw("Vertical");
+        jumpInput = Input.GetKeyDown(KeyCode.Space);
+        attackInput = Input.GetKeyDown(KeyCode.J);
 
-        if (moveInput != 0.0f) {
-            Move(moveInput);
+        HandleJump();
+        HandleAttack();
+    }
+
+    private void FixedUpdate() {
+        HandleMovement();
+
+        moverComponent.Gravity();
+    }  
+
+    private void HandleMovement() {
+        if (!moverComponent) return;
+
+        if (moveInput.x != 0.0f) {
+            moverComponent.Move(moveInput.x);
         }
         else {
-            Break();
+            moverComponent.Break();
+        }
+    }
+
+    private void HandleJump() {
+        if (!moverComponent) return;
+
+        if (jumpInput) {
+            isJumping = true;
+            moverComponent.Jump();
         }
 
-        Gravity();
+        if (isJumping && !Input.GetKey(KeyCode.Space)) {
+            if (moverComponent.GetVelocity().y > 0.2f) moverComponent.BreakJump();
+            else isJumping = false;
+        }
     }
 
-    private void Move(float direction) {
-        rig.AddForce(acelleration * Time.deltaTime * new Vector2(direction, 0f), ForceMode2D.Impulse);
-        Vector2 velocity = new Vector2(rig.velocity.x, 0f);
-        velocity = Vector2.ClampMagnitude(velocity, maxVelocity);
-        rig.velocity = new Vector2(velocity.x, rig.velocity.y);
-    }
+    private void HandleAttack() {
+        if (!attackerComponent) return;
 
-    private void Break() {
-        rig.AddForce(desacelleration * Time.deltaTime * -rig.velocity, ForceMode2D.Force);
+        if (attackInput) {
+            attackerComponent.Attack(moveInput);
+        }
     }
-
-    private void Gravity() {
-        rig.AddForce(gravityForce * Time.deltaTime * Vector2.down, ForceMode2D.Force);
-    }   
 }

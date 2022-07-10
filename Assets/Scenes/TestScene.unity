@@ -1580,6 +1580,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1663067133 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9206286083127447962, guid: a20b446acc2b7e040bfccb0ea934692f, type: 3}
+  m_PrefabInstance: {fileID: 6644319378948032118}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1666225315
 GameObject:
   m_ObjectHideFlags: 0
@@ -1842,6 +1847,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9206286083127447961, guid: a20b446acc2b7e040bfccb0ea934692f, type: 3}
   m_PrefabInstance: {fileID: 6644319378948032118}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2063742752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1663067133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b600cbc6019d9224dbb325097087dd96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitboxPrefab: {fileID: 4844632223317864734, guid: 4f02012c73345dc4ba774a06229ca4d8, type: 3}
 --- !u!1 &2138258385
 GameObject:
   m_ObjectHideFlags: 0
@@ -1960,30 +1978,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 929632821}
     m_Modifications:
-    - target: {fileID: 2063742750, guid: a20b446acc2b7e040bfccb0ea934692f, type: 3}
-      propertyPath: jumpForce
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063742750, guid: a20b446acc2b7e040bfccb0ea934692f, type: 3}
-      propertyPath: maxJumpHold
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063742750, guid: a20b446acc2b7e040bfccb0ea934692f, type: 3}
-      propertyPath: maxVelocity
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063742750, guid: a20b446acc2b7e040bfccb0ea934692f, type: 3}
-      propertyPath: acelleration
-      value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063742750, guid: a20b446acc2b7e040bfccb0ea934692f, type: 3}
-      propertyPath: gravityForce
-      value: 2500
-      objectReference: {fileID: 0}
-    - target: {fileID: 2063742750, guid: a20b446acc2b7e040bfccb0ea934692f, type: 3}
-      propertyPath: desacelleration
-      value: 500
-      objectReference: {fileID: 0}
+    - target: {fileID: 2063742747, guid: a20b446acc2b7e040bfccb0ea934692f, type: 3}
+      propertyPath: attackerComponent
+      value: 
+      objectReference: {fileID: 2063742752}
     - target: {fileID: 9206286083127447961, guid: a20b446acc2b7e040bfccb0ea934692f, type: 3}
       propertyPath: m_RootOrder
       value: 0
