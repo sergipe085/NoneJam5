@@ -586,8 +586,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rig: {fileID: 2063742748}
   scale: {fileID: 2063742753}
-  moverComponent: {fileID: 2063742751}
-  attackerComponent: {fileID: 2063742752}
+  mover: {fileID: 2063742751}
+  attacker: {fileID: 2063742752}
   dasher: {fileID: 9199368324592105098}
   groundLayer:
     serializedVersion: 2
@@ -610,7 +610,7 @@ MonoBehaviour:
   desacelleration: 800
   gravityForce: 2500
   jumpForce: 20
-  stopJumpForce: 0.2
+  stopJumpForce: 4
 --- !u!114 &2063742752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -652,4 +652,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7143374cbb690624daa8694c659a64b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smoothAmount: 10
+  smoothAmount: 30

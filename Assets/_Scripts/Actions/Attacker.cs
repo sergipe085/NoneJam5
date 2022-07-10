@@ -8,7 +8,7 @@ public class Attacker : MonoBehaviour
 
     public void Attack(Vector2 direction) {
         direction.Normalize();
-        Hitbox hitbox = Instantiate(hitboxPrefab, transform.position + (Vector3)direction, Quaternion.identity);
-        hitbox.Initialize(this.gameObject, 2.0f);
+        Hitbox hitbox = Instantiate(hitboxPrefab, transform.position + Vector3.up / 2 + (Vector3)direction, Quaternion.identity);
+        hitbox.Initialize(2.0f);
     }
 }

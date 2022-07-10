@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class PlayerController : Controller
 {
-    [Header("--- COMPONENTS ---")]
-    [SerializeField] private Rigidbody2D rig = null;
-    [SerializeField] private GameFeelScale scale = null;
-
     [Header("--- ACTION COMPONENTS ---")]
     [SerializeField] private Mover mover = null;
     [SerializeField] private Attacker attacker = null;
@@ -16,6 +12,8 @@ public class PlayerController : Controller
     [SerializeField] private LayerMask groundLayer;
 
     private Vector2 moveInput = Vector2.zero;
+    private Vector2 lookDirection = Vector2.zero;
+    private int lastXLook = 1;
     private bool jumpInput = false;
     private bool attackInput = false;
     private bool dashInput = false;
@@ -37,6 +35,7 @@ public class PlayerController : Controller
             return;
         }
 
+        LookDirection();
         HandleDash();
         HandleJump();
         HandleAttack();
@@ -55,9 +54,11 @@ public class PlayerController : Controller
 
         if (moveInput.x != 0.0f) {
             mover.Move(moveInput.x);
+            lookDirection = moveInput;
         }
         else {
             mover.Break();
+            lookDirection.y = 0;
         }
     }
 
@@ -79,7 +80,7 @@ public class PlayerController : Controller
         if (!attacker) return;
 
         if (attackInput) {
-            attacker.Attack(moveInput);
+            attacker.Attack(lookDirection);
         }
     }
 
@@ -87,7 +88,17 @@ public class PlayerController : Controller
         if (!dasher) return;
 
         if (dashInput) {
-            dasher.Dash(moveInput);
+            dasher.Dash(lookDirection);
+        }
+    }
+
+    private void LookDirection() {
+        if (moveInput.magnitude != 0) {
+            lookDirection = moveInput;
+            if (moveInput.x != 0) lastXLook = (int)Mathf.Sign(moveInput.x);
+        } else {
+            lookDirection.y = 0;
+            lookDirection.x = lastXLook;
         }
     }
 
