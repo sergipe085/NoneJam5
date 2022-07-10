@@ -6,6 +6,7 @@ public class Dasher : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rig = null;
 
+    [Header("--- DASH PROPERTIES ---")]
     [SerializeField] private float dashForce = 10.0f;
     [SerializeField] private float dashBreakForce = 10.0f;
     [SerializeField] private float dashLength = 10.0f;
@@ -23,7 +24,7 @@ public class Dasher : MonoBehaviour
     }
 
     public void Dash(Vector2 direction) {
-        if (direction.magnitude != 0) return;
+        if (direction.magnitude == 0) return;
 
         rig.velocity = Vector2.zero;
         rig.AddForce(direction.normalized * dashForce, ForceMode2D.Impulse);

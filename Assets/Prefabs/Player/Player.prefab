@@ -499,6 +499,8 @@ GameObject:
   - component: {fileID: 2063742747}
   - component: {fileID: 2063742751}
   - component: {fileID: 2063742752}
+  - component: {fileID: 9199368324592105098}
+  - component: {fileID: 2063742753}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -582,9 +584,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e15fb118d03011d469b32efa9a19a36c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rig: {fileID: 2063742748}
+  scale: {fileID: 2063742753}
   moverComponent: {fileID: 2063742751}
   attackerComponent: {fileID: 2063742752}
-  dasher: {fileID: 0}
+  dasher: {fileID: 9199368324592105098}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &2063742751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -600,7 +607,7 @@ MonoBehaviour:
   rig: {fileID: 2063742748}
   maxVelocity: 8
   acelleration: 150
-  desacelleration: 500
+  desacelleration: 800
   gravityForce: 2500
   jumpForce: 20
   stopJumpForce: 0.2
@@ -617,3 +624,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitboxPrefab: {fileID: 1749367620051863924, guid: 4f02012c73345dc4ba774a06229ca4d8, type: 3}
+--- !u!114 &9199368324592105098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9206286083127447962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f75ae73b0f8e5614d9938b8d53d84ba0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rig: {fileID: 2063742748}
+  dashForce: 30
+  dashBreakForce: 20
+  dashLength: 0.1
+--- !u!114 &2063742753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9206286083127447962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7143374cbb690624daa8694c659a64b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smoothAmount: 10
