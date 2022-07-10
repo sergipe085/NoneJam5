@@ -15,16 +15,23 @@ public class Mover : MonoBehaviour
     [Header("--- JUMP PROPERTIES ---")]
     public float jumpForce = 100.0f;
     public float stopJumpForce = 0.2f;
+    public bool IsJumping { get; private set; }
 
     public void Move(float direction) {
+        if (direction == 0f) return;
+
         rig.AddForce(acelleration * Time.deltaTime * new Vector2(direction, 0f), ForceMode2D.Impulse);
-        Vector2 velocity = new Vector2(rig.velocity.x, 0f);
-        velocity = Vector2.ClampMagnitude(velocity, maxVelocity);
-        rig.velocity = new Vector2(velocity.x, rig.velocity.y);
+        LimitVelocity();
     }
 
     public void Break() {
         rig.AddForce(desacelleration * Time.deltaTime * -new Vector2(rig.velocity.x, 0f), ForceMode2D.Force);
+    }
+
+    public void LimitVelocity() {
+        Vector2 velocity = new Vector2(rig.velocity.x, 0f);
+        velocity = Vector2.ClampMagnitude(velocity, maxVelocity);
+        rig.velocity = new Vector2(velocity.x, rig.velocity.y);
     }
 
     public void Gravity() {
@@ -34,7 +41,12 @@ public class Mover : MonoBehaviour
     public void Jump() {
         rig.velocity = new Vector2(rig.velocity.x, 0f);
         rig.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        IsJumping = true;
     } 
+
+    public void StopJump() {
+        IsJumping = false;
+    }
 
     public void BreakJump() {
         rig.AddForce(Vector2.down * stopJumpForce, ForceMode2D.Impulse);

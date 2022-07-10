@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Attacker : MonoBehaviour
 {
-    [SerializeField] private Transform hitboxPrefab = null;
+    [SerializeField] private Hitbox hitboxPrefab = null;
 
     public void Attack(Vector2 direction) {
         direction.Normalize();
-        Transform hitbox = Instantiate(hitboxPrefab, transform.position + (Vector3)direction, Quaternion.identity);
+        Hitbox hitbox = Instantiate(hitboxPrefab, transform.position + (Vector3)direction, Quaternion.identity);
+        hitbox.Initialize(this.gameObject, 2.0f);
     }
 }
