@@ -15,6 +15,8 @@ public class BossTestState : BossBaseState
     private bool attacking = false;
     private bool stopAttack = false;
 
+    private Health target = null;
+
     private void Start() {
         initialPosition = transform.position;
     }
@@ -22,11 +24,18 @@ public class BossTestState : BossBaseState
     public override void Enter(BossController _bossController, Action _OnExitState) {
         base.Enter(_bossController, _OnExitState);
 
+        target = PlayerController.Instance.GetComponent<Health>();
+
         rig = bossController.GetRigidbody2D();
         Initialize();
     }
 
     private void Initialize() {
+        if (!target) {
+            bossController.SwitchState(BossStateEnum.IDLE);
+            return;
+        }
+
         attacking = false;
         stopAttack = false;
         rig.velocity = Vector2.zero;
@@ -36,6 +45,8 @@ public class BossTestState : BossBaseState
 
     public override void Update() {
         base.Update();
+
+        if (!isActive) return;
 
         if (stopAttack || bossController.OnGround()) {
             Break();

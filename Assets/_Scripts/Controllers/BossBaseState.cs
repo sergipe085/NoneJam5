@@ -8,7 +8,7 @@ public abstract class BossBaseState : MonoBehaviour
     protected BossController bossController = null;
     private Action OnExitState = null;
 
-    protected bool isActive = false;
+    public bool isActive = false;
 
     public virtual void Enter(BossController _bossController, Action _OnExitState) {
         this.bossController = _bossController;

@@ -27,6 +27,15 @@ public class BossController : Controller
         health.GetAttackEvent -= GetAttack;
     }
 
+    private void Update() {
+        if (GameManager.Instance.IsBattling()) return;
+
+        float distanceToPlayer = Vector2.Distance(transform.position, PlayerController.Instance.transform.position);
+        if (distanceToPlayer <= 5.0f) {
+            GameManager.Instance.StartBoss(this);
+        }
+    }
+
     protected virtual void GetAttack() {
         scale.ChangeScale(new Vector2(2.5f, 2.5f));
     }
@@ -54,6 +63,10 @@ public class BossController : Controller
 
     public Attacker GetAttacker() {
         return attacker;
+    }
+
+    public Health GetHealth() {
+        return health;
     }
 }
 

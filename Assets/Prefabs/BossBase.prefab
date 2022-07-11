@@ -25,8 +25,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6227236444584357131}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.5, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6227236445767263395}
@@ -52,7 +52,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 686c0f7916fc26c41b666fe91ae995e7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -130,6 +130,9 @@ GameObject:
   - component: {fileID: 6227236446152388182}
   - component: {fileID: 6227236446152388183}
   - component: {fileID: 6227236446152388184}
+  - component: {fileID: 1035568298}
+  - component: {fileID: 1035568299}
+  - component: {fileID: 1035568300}
   m_Layer: 8
   m_Name: BossBase
   m_TagString: Untagged
@@ -166,7 +169,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 2.5}
+  m_Offset: {x: 0, y: 0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -177,7 +180,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5, y: 5}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!50 &6227236446152388181
 Rigidbody2D:
@@ -191,15 +194,15 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1000
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!114 &6227236446152388182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,8 +215,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bb125f109ca94d4cba29ab76ee06724, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 0}
+  rig: {fileID: 6227236446152388181}
+  scale: {fileID: 6227236446152388184}
+  spriteRenderer: {fileID: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
   health: {fileID: 6227236446152388183}
-  gameFeelScale: {fileID: 6227236446152388184}
+  attacker: {fileID: 1035568299}
+  attackStates:
+  - {fileID: 1035568298}
+  idleState: {fileID: 1035568300}
 --- !u!114 &6227236446152388183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,7 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05ca544a183f55548a767bfde41ad139, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 1
 --- !u!114 &6227236446152388184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,3 +254,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 6227236445767263395}
   smoothAmount: 30
+--- !u!114 &1035568298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6227236446152388186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a08f597fec2494d9c25c41de96173a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isActive: 0
+  dashForce: 40
+--- !u!114 &1035568299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6227236446152388186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b600cbc6019d9224dbb325097087dd96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitboxPrefab: {fileID: 6599945575448760360, guid: 240c8ef3c113b2f4ba50af45f4b7e900, type: 3}
+--- !u!114 &1035568300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6227236446152388186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b8b884debff3c64385757e1f7eb6db2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isActive: 0

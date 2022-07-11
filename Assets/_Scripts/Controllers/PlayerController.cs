@@ -10,6 +10,7 @@ public class PlayerController : Controller
     [SerializeField] private Mover mover = null;
     [SerializeField] private Attacker attacker = null;
     [SerializeField] private Dasher dasher = null;
+    [SerializeField] private Health health = null;
 
     private Vector2 moveInput = Vector2.zero;
     private Vector2 lookDirection = Vector2.zero;
@@ -24,10 +25,12 @@ public class PlayerController : Controller
     private int isAirHash = Animator.StringToHash("isAir");
     private int isAirUpHash = Animator.StringToHash("isAirUp");
     private int isAirDownHash = Animator.StringToHash("isAirDown");
+    private int attackHash = Animator.StringToHash("attack");
 
     [Header("--- GAME FEEL ---")]
     [SerializeField] private Vector2 landScale = Vector2.zero;
     [SerializeField] private Vector2 jumpScale = Vector2.zero;
+    [SerializeField] private GameObject attackEffectPrefab = null;
 
     private float currentDashTime = 0.0f;
 
@@ -122,7 +125,13 @@ public class PlayerController : Controller
         if (!attacker) return;
 
         if (attackInput) {
-            attacker.Attack(lookDirection);
+            Vector2 attackDirection = new Vector2(lookDirection.y == 0 ? lookDirection.x : 0, lookDirection.y);
+
+            Hitbox hitbox = attacker.Attack(attackDirection, 2);
+            GameObject attackEffect = Instantiate(attackEffectPrefab, transform);
+            attackEffect.transform.position = hitbox.transform.position;
+            attackEffect.transform.up = attackDirection;
+            attackEffect.transform.localRotation = Quaternion.Euler(0f, 0f, attackEffect.transform.eulerAngles.z + 90f);
         }
     }
 
