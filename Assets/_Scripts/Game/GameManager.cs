@@ -10,11 +10,12 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private BossController currentBoss = null;
 
     public event Action<BossController> OnStartBossEvent = null;
+    public event Action OnEndBossEvent = null;
 
     public void StartBoss(BossController boss) {
-        Debug.Log("Start Boss " + boss.gameObject.name);
         currentBoss = boss;
         currentBoss.SwitchState(BossStateEnum.ATTACKING);
+        currentBoss.GetHealth().OnDie += OnCurrentBossDie;
         OnStartBossEvent?.Invoke(boss);
     }
 
@@ -24,6 +25,11 @@ public class GameManager : Singleton<GameManager>
 
     public BossController GetCurrentBoss() {
         return currentBoss;
+    }
+
+    private void OnCurrentBossDie() {
+        currentBoss = null;
+        OnEndBossEvent?.Invoke();
     }
 
     private void Update() {

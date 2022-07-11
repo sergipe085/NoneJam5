@@ -11,6 +11,7 @@ public class Mover : MonoBehaviour
     [SerializeField] private float acelleration = 50.0f;
     [SerializeField] private float desacelleration = 50.0f;
     [SerializeField] private float gravityForce = 10.0f;
+    private bool canMove = true;
 
     [Header("--- JUMP PROPERTIES ---")]
     public float jumpForce = 100.0f;
@@ -18,7 +19,7 @@ public class Mover : MonoBehaviour
     public bool IsJumping { get; private set; }
 
     public void Move(float direction) {
-        if (direction == 0f) return;
+        if (direction == 0f || !canMove) return;
 
         rig.AddForce(acelleration * Time.deltaTime * new Vector2(direction, 0f), ForceMode2D.Impulse);
         LimitVelocity();
@@ -54,5 +55,15 @@ public class Mover : MonoBehaviour
 
     public Vector2 GetVelocity() {
         return rig.velocity;
+    }
+
+    public void StopMove() {
+        canMove = false;
+        rig.isKinematic = true;
+        rig.velocity = Vector2.zero;
+    }
+    public void ReturnMove() {
+        canMove = true;
+        rig.isKinematic = false;
     }
 }

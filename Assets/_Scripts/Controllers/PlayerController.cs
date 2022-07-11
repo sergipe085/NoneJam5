@@ -31,8 +31,18 @@ public class PlayerController : Controller
     [SerializeField] private Vector2 landScale = Vector2.zero;
     [SerializeField] private Vector2 jumpScale = Vector2.zero;
     [SerializeField] private GameObject attackEffectPrefab = null;
+    [SerializeField] private float ldSpeed = 30.0f;
+    [SerializeField] private float ldForce = 0.6f;
 
     private float currentDashTime = 0.0f;
+
+    private void OnEnable() {
+        health.OnTakeDamage += HandleTakeDamage;
+    }
+
+    private void OnDisable() {
+        health.OnTakeDamage -= HandleTakeDamage;
+    }
 
     private void Awake() {
         if (Instance) {
@@ -168,5 +178,18 @@ public class PlayerController : Controller
             Land();
         }
         lastOnGround = isGround;
+    }
+
+    private void HandleTakeDamage(Vector2 position) {
+        mover.StopMove();
+        StartCoroutine(TakeDamage(position));
+    }
+
+    private IEnumerator TakeDamage(Vector2 position) {
+        GameEffectManager.Instance.DistortionPulse(ldForce, ldSpeed);
+
+        yield return new WaitForSeconds(0.1f);
+        mover.ReturnMove();
+        dasher.Dash((Vector2)transform.position - position, 18.0f, 0.1f);
     }
 }

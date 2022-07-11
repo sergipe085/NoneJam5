@@ -5,6 +5,7 @@ using UnityEngine;
 public class BossController : Controller
 {
     [Header("--- COMPONENTS ---")]
+    [SerializeField] private Collider2D collider = null;
     [SerializeField] private Health health = null;
     [SerializeField] private Attacker attacker = null;
 
@@ -67,6 +68,10 @@ public class BossController : Controller
 
     public Health GetHealth() {
         return health;
+    }
+
+    public Collider2D GetCollider() {
+        return collider;
     }
 }
 

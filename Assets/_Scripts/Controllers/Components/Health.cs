@@ -9,7 +9,8 @@ public class Health : Attackable
     [SerializeField] private int maxHealth = 10;
     [SerializeField] private int currentHealth = 0;
 
-    public event Action OnTakeDamage = null;
+    public event Action<Vector2> OnTakeDamage = null;
+    public event Action OnDie = null;
 
     private void Start() {
         currentHealth = maxHealth;
@@ -19,9 +20,9 @@ public class Health : Attackable
         base.GetAttack(damage, position);
 
         currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
+        OnTakeDamage?.Invoke(position);
+        
         CheckDead();
-
-        OnTakeDamage?.Invoke();
     }
 
     private void CheckDead() {
@@ -31,6 +32,7 @@ public class Health : Attackable
     }
 
     private void Die() {
+        OnDie?.Invoke();
         Destroy(gameObject);
     }
     

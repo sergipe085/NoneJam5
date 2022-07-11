@@ -13,6 +13,7 @@ public class Dasher : MonoBehaviour
 
     public bool IsDashing { get; private set; } = false;
     private float currentDashTime = 0.0f;
+    private float currentDashLength = 0.0f;
 
     private void Update() {
         if (IsDashing && currentDashTime < dashLength) {
@@ -29,6 +30,16 @@ public class Dasher : MonoBehaviour
         rig.velocity = Vector2.zero;
         rig.AddForce(direction.normalized * dashForce, ForceMode2D.Impulse);
         IsDashing = true;
+        currentDashLength = dashLength;
+    }
+
+    public void Dash(Vector2 direction, float force, float length) {
+        if (direction.magnitude == 0) return;
+
+        rig.velocity = Vector2.zero;
+        rig.AddForce(direction.normalized * force, ForceMode2D.Impulse);
+        IsDashing = true;
+        currentDashLength = length;
     }
 
     private void StopDash() {
