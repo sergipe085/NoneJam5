@@ -9,8 +9,6 @@ public class PlayerController : Controller
     [SerializeField] private Attacker attacker = null;
     [SerializeField] private Dasher dasher = null;
 
-    [SerializeField] private LayerMask groundLayer;
-
     private Vector2 moveInput = Vector2.zero;
     private Vector2 lookDirection = Vector2.zero;
     private int lastXLook = 1;
