@@ -14,7 +14,7 @@ TagManager:
   - Ground
   - Hitbox
   - Attackable
-  - 
+  - Background
   - 
   - 
   - 
@@ -40,4 +40,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Collision
+    uniqueID: 4000250693
+    locked: 0
+  - name: Background
+    uniqueID: 3341298429
+    locked: 0
+  - name: Player
+    uniqueID: 2989257591
+    locked: 0
+  - name: Ground
+    uniqueID: 4282858271
     locked: 0

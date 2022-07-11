@@ -2,13 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossController : MonoBehaviour
+public class BossController : Controller
 {
+    [Header("--- COMPONENTS ---")]
     [SerializeField] private Health health = null;
-    [SerializeField] private GameFeelScale gameFeelScale = null;
+    [SerializeField] private Attacker attacker = null;
 
-    private BossState currentState = BossState.IDLE;
+    [Header("--- STATES ---")]
+    [SerializeField] private List<BossBaseState> attackStates = new();
+    [SerializeField] private BossBaseState idleState = null;
+
+    private BossBaseState currentState = null;
+
     
+    private void Start() {
+        SwitchState(BossStateEnum.IDLE);
+    }
+
     private void OnEnable() {
         health.GetAttackEvent += GetAttack;
     }
@@ -17,25 +27,34 @@ public class BossController : MonoBehaviour
         health.GetAttackEvent -= GetAttack;
     }
 
-    protected virtual void Update() {
-        switch(currentState) {
-            case BossState.IDLE:
-                IdleState();
+    protected virtual void GetAttack() {
+        scale.ChangeScale(new Vector2(2.5f, 2.5f));
+    }
+
+    public virtual void SwitchState(BossBaseState newState) {
+        currentState?.Exit();
+        currentState = newState;
+        currentState.Enter(this, OnExitState);
+    }
+
+    public virtual void SwitchState(BossStateEnum bossStateEnum) {
+        switch(bossStateEnum) {
+            case BossStateEnum.IDLE:
+                SwitchState(idleState);
+                break;
+            case BossStateEnum.ATTACKING:
+                SwitchState(attackStates[Random.Range(0, attackStates.Count)]);
                 break;
         }
     }
 
-    protected virtual void SwitchState(BossState newState) {
-        currentState = newState;
+    private void OnExitState() {
+        currentState = null;
     }
 
-    protected virtual void GetAttack() {
-        gameFeelScale.ChangeScale(new Vector2(0.5f, 1.5f));
+    public Attacker GetAttacker() {
+        return attacker;
     }
-
-    protected virtual void IdleState() {
-
-    }
-
-    protected enum BossState { IDLE }
 }
+
+public enum BossStateEnum { IDLE, ATTACKING }

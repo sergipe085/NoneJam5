@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : Controller
 {
+    public static PlayerController Instance = null;
+
     [Header("--- ACTION COMPONENTS ---")]
     [SerializeField] private Mover mover = null;
     [SerializeField] private Attacker attacker = null;
@@ -17,7 +19,25 @@ public class PlayerController : Controller
     private bool dashInput = false;
     private bool lastOnGround = false;
 
+    [Header("--- ANIMATION ---")]
+    private int isRunningHash = Animator.StringToHash("isRunning");
+    private int isAirHash = Animator.StringToHash("isAir");
+    private int isAirUpHash = Animator.StringToHash("isAirUp");
+    private int isAirDownHash = Animator.StringToHash("isAirDown");
+
+    [Header("--- GAME FEEL ---")]
+    [SerializeField] private Vector2 landScale = Vector2.zero;
+    [SerializeField] private Vector2 jumpScale = Vector2.zero;
+
     private float currentDashTime = 0.0f;
+
+    private void Awake() {
+        if (Instance) {
+            Destroy(this);
+        } else {
+            Instance = this;
+        }
+    }
 
     private void Update() {
         moveInput.x = Input.GetAxisRaw("Horizontal");
@@ -53,11 +73,19 @@ public class PlayerController : Controller
         if (moveInput.x != 0.0f) {
             mover.Move(moveInput.x);
             lookDirection = moveInput;
+            
         }
         else {
             mover.Break();
             lookDirection.y = 0;
         }
+
+        HandleMovementAnimation();
+    }
+
+    private void HandleMovementAnimation() {
+        anim.SetBool(isRunningHash, moveInput.x != 0);
+        spriteRenderer.flipX = lookDirection.x != 1;
     }
 
     private void HandleJump() {
@@ -65,12 +93,28 @@ public class PlayerController : Controller
 
         if (jumpInput && lastOnGround) {
             mover.Jump();
-            scale.ChangeScale(new Vector2(0.5f, 1.5f));
+            scale.ChangeScale(jumpScale);
         }
 
         if (mover.IsJumping && !Input.GetKey(InputMap.Instance.actionDictionary[ACTION.Jump])) {
             if (mover.GetVelocity().y > 0.2f) mover.BreakJump();
             else mover.StopJump();
+        }
+
+        HandleJumpAnimations();
+    }
+
+    private void HandleJumpAnimations() {
+        if (!lastOnGround) {
+            anim.SetBool(isAirHash, true);
+            if (rig.velocity.y > 0.1f) {
+                anim.SetBool(isAirUpHash, true);
+                anim.SetBool(isAirDownHash, false);
+            }
+            else {
+                anim.SetBool(isAirUpHash, false);   
+                anim.SetBool(isAirDownHash, true);
+            }
         }
     }
 
@@ -101,18 +145,19 @@ public class PlayerController : Controller
     }
 
     private void Land() {
-        scale.ChangeScale(new Vector2(1.5f, 0.5f));
+        scale.ChangeScale(landScale);
+        HandleLandAnimation();
+    }
+
+    private void HandleLandAnimation() {
+        anim.SetBool(isAirHash, false);
     }
 
     private void CheckLand() {
         bool isGround = OnGround();
-        if (!lastOnGround && isGround && rig.velocity.y < -0.5f) {
+        if (!lastOnGround && isGround && rig.velocity.y < 0.1f) {
             Land();
         }
         lastOnGround = isGround;
-    }
-
-    private bool OnGround() {
-        return Physics2D.OverlapBox(transform.position, new Vector2(1f, 0.5f), 0, groundLayer);
     }
 }
