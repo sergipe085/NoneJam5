@@ -7,23 +7,27 @@ public class BossAttackStateLaunchEnemy : BossBaseState
 {
     [SerializeField] private Bullet bulletPrefab = null;
     [SerializeField] private float shootPerSecond = 5.0f;
-    private float currentTime = 0.0f;
+    private float currentShootTime = 0.0f;
 
     private Rigidbody2D rig = null;
 
     private Health target = null;
     private Vector2 initialPosition = Vector2.zero;
 
+    private float attackDuration = 5.0f;
+    private float currentTime = 0.0f;
+
     private void Start() {
         initialPosition = transform.position;
     }
 
-    public override void Enter(BossController _bossController, Action _OnExitState) {
-        base.Enter(_bossController, _OnExitState);
+    public override void Enter(BossController _bossController) {
+        base.Enter(_bossController);
 
         target = PlayerController.Instance.GetComponent<Health>();
 
         rig = bossController.GetRigidbody2D();
+        bossController.GetCollider().enabled = true;
         Initialize();
     }
 
@@ -32,6 +36,9 @@ public class BossAttackStateLaunchEnemy : BossBaseState
             bossController.SwitchState(BossStateEnum.IDLE);
             return;
         }
+
+        currentShootTime = 0.0f;
+        currentTime = 0.0f;
     }
 
     public override void Update() {
@@ -41,19 +48,26 @@ public class BossAttackStateLaunchEnemy : BossBaseState
 
         rig.velocity = Vector2.zero;
 
+        currentShootTime += Time.deltaTime;
         currentTime += Time.deltaTime;
 
         float shootTime = 1.0f / shootPerSecond;
-        if (currentTime >= shootTime) {
+        if (currentShootTime >= shootTime) {
             Shoot();
-            currentTime = 0.0f;
+            currentShootTime = 0.0f;
         }
+
+        if (currentTime >= attackDuration) {
+            bossController.SwitchState(BossStateEnum.ATTACKING);
+        }
+
+        transform.position = Vector2.Lerp(transform.position, initialPosition + new Vector2(Mathf.Cos(currentTime), Mathf.Sin(currentTime)) * 5.0f, 10.0f * Time.deltaTime);
     }
 
     private void Shoot() {
         Bullet bullet = ObjectPool.Instance.SpawnBullet(transform.position + Vector3.up / 2);
         bullet.Initialize(new Vector2(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f)), 5.0f);
-        Hitbox hitbox = bossController.GetAttacker().AttachedAttack((att) => ObjectPool.Instance.DestroyBullet(bullet), bullet.transform);
+        Hitbox hitbox = bossController.GetAttacker().AttachedAttack((att) => ObjectPool.Instance.DestroyBullet(bullet), bullet.transform, 0.5f);
     }
 
     public override void Exit() {

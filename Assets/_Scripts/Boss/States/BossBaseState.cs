@@ -6,13 +6,11 @@ using UnityEngine;
 public abstract class BossBaseState : MonoBehaviour
 {
     protected BossController bossController = null;
-    private Action OnExitState = null;
 
     public bool isActive = false;
 
-    public virtual void Enter(BossController _bossController, Action _OnExitState) {
+    public virtual void Enter(BossController _bossController) {
         this.bossController = _bossController;
-        this.OnExitState = _OnExitState;
         isActive = true;
     }
 
@@ -21,7 +19,6 @@ public abstract class BossBaseState : MonoBehaviour
     }
 
     public virtual void Exit() {
-        OnExitState.Invoke();
         isActive = false;
     }
 }

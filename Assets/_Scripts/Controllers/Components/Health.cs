@@ -33,7 +33,7 @@ public class Health : Attackable
 
     private void Die() {
         OnDie?.Invoke();
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
     
     public float GetHealthPercentage() {

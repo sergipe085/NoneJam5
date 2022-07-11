@@ -10,15 +10,19 @@ public class BossIdleState : BossBaseState
     private Rigidbody2D rig = null;
     private GameObject player = null;
 
+    private float timeToChange = 1.0f;
+    private float currentTime = 0.0f;
+
     private void Start() {
         initialPosition = transform.position;
         player = PlayerController.Instance.gameObject;
     }
 
-    public override void Enter(BossController _bossController, Action _OnExitState) {
-        base.Enter(_bossController, _OnExitState);
+    public override void Enter(BossController _bossController) {
+        base.Enter(_bossController);
 
         rig = bossController.GetRigidbody2D();
+        bossController.GetCollider().enabled = true;
 
         Initialize();
     }
@@ -26,6 +30,7 @@ public class BossIdleState : BossBaseState
     private void Initialize() {
         rig.velocity = Vector2.zero;
         rig.isKinematic = true;
+        currentTime = 0.0f;
     }
 
 
@@ -35,6 +40,11 @@ public class BossIdleState : BossBaseState
         if (!isActive) return;
 
         transform.position = Vector2.Lerp(transform.position, initialPosition, 3.0f * Time.deltaTime);
+
+        currentTime += Time.deltaTime;
+        if (currentTime >= timeToChange) {
+            bossController.SwitchState(BossStateEnum.ATTACKING);
+        }
     }
 
     public override void Exit() {

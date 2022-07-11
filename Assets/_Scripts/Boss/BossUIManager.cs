@@ -44,7 +44,7 @@ public class BossUIManager : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
 
         for(int i = bossName.text.Length - 1; i >= 0; i--) {
-            bossName.text = bossName.text.Remove(i);
+            if (i < bossName.text.Length) bossName.text = bossName.text.Remove(i);
             yield return new WaitForSeconds(0.1f);
         }
 

@@ -16,9 +16,9 @@ public class Attacker : MonoBehaviour
         return hitbox;
     }
 
-    public Hitbox AttachedAttack(Action<Attackable> onHit, Transform _transform) {
+    public Hitbox AttachedAttack(Action<Attackable> onHit, Transform _transform, float size) {
         Hitbox hitbox = Instantiate(hitboxPrefab, _transform);
-        hitbox.Initialize(this.gameObject, 1.3f, onHit);
+        hitbox.Initialize(this.gameObject, size, onHit);
         hitbox.transform.localPosition += Vector3.up / 2;
         return hitbox;
     }

@@ -20,14 +20,19 @@ public class BossTestState : BossBaseState
 
     private bool hitted = false;
 
+    private float attackDuration = 6.0f;
+    private float currentTime = 0.0f;
+
     private void Start() {
         initialPosition = transform.position;
     }
 
-    public override void Enter(BossController _bossController, Action _OnExitState) {
-        base.Enter(_bossController, _OnExitState);
+    public override void Enter(BossController _bossController) {
+        base.Enter(_bossController);
 
         target = PlayerController.Instance.GetComponent<Health>();
+
+        currentTime = 0.0f;
 
         rig = bossController.GetRigidbody2D();
         Initialize();
@@ -63,6 +68,11 @@ public class BossTestState : BossBaseState
         if (currentDistance < 0.3f) {
             StartCoroutine(Attack());
         }
+
+        currentTime += Time.deltaTime;
+        if (currentTime >= attackDuration) {
+            bossController.SwitchState(BossStateEnum.ATTACKING);
+        }
     }
 
     public override void Exit() {
@@ -76,7 +86,7 @@ public class BossTestState : BossBaseState
         Vector2 playerPosition = PlayerController.Instance.transform.position;
         rig.AddForce(dashForce * (playerPosition - (Vector2)transform.position).normalized, ForceMode2D.Impulse);
 
-        hitbox = bossController.GetAttacker().AttachedAttack((att) => StartCoroutine(OnHit()), transform);
+        hitbox = bossController.GetAttacker().AttachedAttack((att) => StartCoroutine(OnHit()), transform, 1.3f);
 
         yield return new WaitForSeconds(0.5f);
 

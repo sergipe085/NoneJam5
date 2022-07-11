@@ -14,7 +14,6 @@ public class GameManager : Singleton<GameManager>
 
     public void StartBoss(BossController boss) {
         currentBoss = boss;
-        currentBoss.SwitchState(BossStateEnum.ATTACKING);
         currentBoss.GetHealth().OnDie += OnCurrentBossDie;
         OnStartBossEvent?.Invoke(boss);
     }
