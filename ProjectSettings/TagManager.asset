@@ -11,8 +11,6 @@ TagManager:
   - 
   - Water
   - UI
-  - Background
-  - Foreground
   - Ground
   - Hitbox
   - Attackable
@@ -37,28 +35,9 @@ TagManager:
   - 
   - 
   - 
+  - 
+  - 
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Background Far
-    uniqueID: 605783761
-    locked: 0
-  - name: Background Close
-    uniqueID: 1185040573
-    locked: 0
-  - name: Midground
-    uniqueID: 3413221823
-    locked: 0
-  - name: Midground Close
-    uniqueID: 3276601493
-    locked: 0
-  - name: Ground
-    uniqueID: 3305723655
-    locked: 0
-  - name: Foreground
-    uniqueID: 4140487941
-    locked: 0
-  - name: Foreground Close
-    uniqueID: 870924107
     locked: 0
