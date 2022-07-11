@@ -130,9 +130,10 @@ GameObject:
   - component: {fileID: 6227236446152388182}
   - component: {fileID: 6227236446152388183}
   - component: {fileID: 6227236446152388184}
-  - component: {fileID: 1035568298}
   - component: {fileID: 1035568299}
   - component: {fileID: 1035568300}
+  - component: {fileID: 1200482758}
+  - component: {fileID: 8235803713570201974}
   m_Layer: 8
   m_Name: BossBase
   m_TagString: Untagged
@@ -190,7 +191,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6227236446152388186}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -219,13 +220,15 @@ MonoBehaviour:
   rig: {fileID: 6227236446152388181}
   scale: {fileID: 6227236446152388184}
   spriteRenderer: {fileID: 0}
+  properties: {fileID: 11400000, guid: c3501202f6702f1478e6874dcc7646b0, type: 2}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  collider: {fileID: 6227236446152388180}
   health: {fileID: 6227236446152388183}
   attacker: {fileID: 1035568299}
   attackStates:
-  - {fileID: 1035568298}
+  - {fileID: 8235803713570201974}
   idleState: {fileID: 1035568300}
 --- !u!114 &6227236446152388183
 MonoBehaviour:
@@ -239,7 +242,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05ca544a183f55548a767bfde41ad139, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1
+  maxHealth: 10
+  currentHealth: 0
 --- !u!114 &6227236446152388184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,20 +258,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 6227236445767263395}
   smoothAmount: 30
---- !u!114 &1035568298
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6227236446152388186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14a08f597fec2494d9c25c41de96173a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isActive: 0
-  dashForce: 40
 --- !u!114 &1035568299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,3 +284,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActive: 0
+--- !u!114 &1200482758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6227236446152388186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a08f597fec2494d9c25c41de96173a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isActive: 0
+  dashForce: 40
+--- !u!114 &8235803713570201974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6227236446152388186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fab0748ebbe3975478ea27487a6dad5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isActive: 0
+  bulletPrefab: {fileID: 0}
+  shootPerSecond: 5

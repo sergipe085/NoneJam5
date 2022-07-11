@@ -76,7 +76,7 @@ public class BossTestState : BossBaseState
         Vector2 playerPosition = PlayerController.Instance.transform.position;
         rig.AddForce(dashForce * (playerPosition - (Vector2)transform.position).normalized, ForceMode2D.Impulse);
 
-        hitbox = bossController.GetAttacker().AttachedAttack((att) => StartCoroutine(OnHit()));
+        hitbox = bossController.GetAttacker().AttachedAttack((att) => StartCoroutine(OnHit()), transform);
 
         yield return new WaitForSeconds(0.5f);
 
@@ -92,10 +92,10 @@ public class BossTestState : BossBaseState
 
     private IEnumerator OnHit() {
         hitted = true;
-        Destroy(hitbox.gameObject);
+        if (hitbox) Destroy(hitbox.gameObject);
         Stop();
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(bossController.GetProperties().stopAttackTime);
 
         Initialize();
     }

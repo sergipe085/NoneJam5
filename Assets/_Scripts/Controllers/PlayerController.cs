@@ -27,14 +27,8 @@ public class PlayerController : Controller
     private int isAirDownHash = Animator.StringToHash("isAirDown");
     private int attackHash = Animator.StringToHash("attack");
 
-    [Header("--- GAME FEEL ---")]
-    [SerializeField] private Vector2 landScale = Vector2.zero;
-    [SerializeField] private Vector2 jumpScale = Vector2.zero;
+    [Header("--- GERAL ---")]
     [SerializeField] private GameObject attackEffectPrefab = null;
-    [SerializeField] private float ldSpeed = 30.0f;
-    [SerializeField] private float ldForce = 0.6f;
-
-    private float currentDashTime = 0.0f;
 
     private void OnEnable() {
         health.OnTakeDamage += HandleTakeDamage;
@@ -106,7 +100,7 @@ public class PlayerController : Controller
 
         if (jumpInput && lastOnGround) {
             mover.Jump();
-            scale.ChangeScale(jumpScale);
+            scale.ChangeScale(properties.jumpScale);
         }
 
         if (mover.IsJumping && !Input.GetKey(InputMap.Instance.actionDictionary[ACTION.Jump])) {
@@ -164,7 +158,7 @@ public class PlayerController : Controller
     }
 
     private void Land() {
-        scale.ChangeScale(landScale);
+        scale.ChangeScale(properties.landScale);
         HandleLandAnimation();
     }
 
@@ -186,10 +180,11 @@ public class PlayerController : Controller
     }
 
     private IEnumerator TakeDamage(Vector2 position) {
-        GameEffectManager.Instance.DistortionPulse(ldForce, ldSpeed);
+        GameEffectManager.Instance.DistortionPulse(properties.ldTakeDamageForce, properties.ldTakeDamageSpeed);
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(properties.stopTimeDuration);
+
         mover.ReturnMove();
-        dasher.Dash((Vector2)transform.position - position, 18.0f, 0.1f);
+        dasher.Dash((Vector2)transform.position - position, properties.dashTakeDamageForce, properties.dashTakeDamageLength);
     }
 }

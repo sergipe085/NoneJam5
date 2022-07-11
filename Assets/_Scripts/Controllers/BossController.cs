@@ -73,6 +73,10 @@ public class BossController : Controller
     public Collider2D GetCollider() {
         return collider;
     }
+
+    public ControllerProperties GetProperties() {
+        return properties;
+    }
 }
 
 public enum BossStateEnum { IDLE, ATTACKING }

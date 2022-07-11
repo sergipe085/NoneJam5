@@ -11,6 +11,7 @@ public class Controller : MonoBehaviour
     [SerializeField] protected SpriteRenderer spriteRenderer = null;
 
     [Header("--- GERAL ---")]
+    [SerializeField] protected ControllerProperties properties = null;
     [SerializeField] protected LayerMask groundLayer;
 
     public void AddForce(Vector2 direction, float force) {
