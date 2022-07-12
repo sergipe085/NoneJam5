@@ -60,7 +60,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         if (Input.GetKeyDown(KeyCode.E)) {
-            if (IsBattling() || currentBoss.IsDefeated()) return;
+            if (IsBattling() || currentBoss.IsDefeated() || BossUIManager.Instance.isChanging) return;
 
             StartBoss();
         }

@@ -393,6 +393,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BossBase (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8235803713570201974, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
+      propertyPath: shootPerSecond
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
 --- !u!114 &268516146 stripped
@@ -1042,6 +1046,7 @@ MonoBehaviour:
   bossUI: {fileID: 958318431}
   bossName: {fileID: 1708301419}
   bossHealthSlider: {fileID: 1308065854}
+  isChanging: 0
 --- !u!1 &958318431
 GameObject:
   m_ObjectHideFlags: 0
@@ -1525,7 +1530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 2371726405285933877, guid: 31864566bfa43624383e3a47bb3dae1a, type: 3}
-  maxBullets: 500
+  maxBullets: 100
 --- !u!1 &1193702559
 GameObject:
   m_ObjectHideFlags: 0
@@ -21719,6 +21724,34 @@ PrefabInstance:
     - target: {fileID: 6854562848874365617, guid: dd6fca7874030bd4aa42d8502659ad63, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6854562849565456527, guid: dd6fca7874030bd4aa42d8502659ad63, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6854562849565456527, guid: dd6fca7874030bd4aa42d8502659ad63, type: 3}
+      propertyPath: m_Color.g
+      value: 0.608258
+      objectReference: {fileID: 0}
+    - target: {fileID: 6854562849565456527, guid: dd6fca7874030bd4aa42d8502659ad63, type: 3}
+      propertyPath: m_Color.r
+      value: 0.3443396
+      objectReference: {fileID: 0}
+    - target: {fileID: 6854562849565456527, guid: dd6fca7874030bd4aa42d8502659ad63, type: 3}
+      propertyPath: m_Intensity
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6854562849565456527, guid: dd6fca7874030bd4aa42d8502659ad63, type: 3}
+      propertyPath: m_FalloffIntensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6854562849565456527, guid: dd6fca7874030bd4aa42d8502659ad63, type: 3}
+      propertyPath: m_PointLightInnerRadius
+      value: 0.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 6854562849565456527, guid: dd6fca7874030bd4aa42d8502659ad63, type: 3}
+      propertyPath: m_PointLightOuterRadius
+      value: 2.01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd6fca7874030bd4aa42d8502659ad63, type: 3}

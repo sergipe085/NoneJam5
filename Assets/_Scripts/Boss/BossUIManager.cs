@@ -4,13 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class BossUIManager : MonoBehaviour
+public class BossUIManager : Singleton<BossUIManager>
 {
     [SerializeField] private GameObject bossUI = null;
     [SerializeField] private TMPro.TextMeshProUGUI bossName = null;
     [SerializeField] private Slider bossHealthSlider = null;
 
     private BossController currentBoss = null;
+
+    public bool isChanging = false;
 
     private void Start() {
         ClearBossUI();
@@ -46,6 +48,8 @@ public class BossUIManager : MonoBehaviour
     }
 
     private IEnumerator HideBossUI() {
+        isChanging = true;
+
         yield return new WaitForSeconds(0.4f);
 
         for(int i = bossName.text.Length - 1; i >= 0; i--) {
@@ -56,10 +60,15 @@ public class BossUIManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.2f);
 
-        bossHealthSlider.transform.DOScaleX(0, 0.8f).OnComplete(ClearBossUI);
+        bossHealthSlider.transform.DOScaleX(0, 0.8f).OnComplete(() => {
+            bossUI.SetActive(false);
+            isChanging = false;
+        });
     }
 
     private IEnumerator ShowBossUI(string _bossName) {
+        isChanging = true;
+
         bossUI.SetActive(true);
         bossHealthSlider.value = 0.0f;
         bossName.text = "";
@@ -78,5 +87,7 @@ public class BossUIManager : MonoBehaviour
             yield return null;
         }
         bossHealthSlider.value = currentBoss.GetHealth().GetHealthPercentage();
+
+        isChanging = false;
     }
 }
