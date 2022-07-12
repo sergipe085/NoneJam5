@@ -9,25 +9,34 @@ public class Health : Attackable
     [SerializeField] private int maxHealth = 10;
     [SerializeField] private int currentHealth = 0;
 
+    [Header("--- GAME FEEL ---")]
+    [SerializeField] private ParticleSystem damageParticle = null;
+
     public event Action<Vector2> OnTakeDamage = null;
     public event Action OnDie = null;
     public event Action OnReset = null;
 
-    private void Start() {
-        currentHealth = maxHealth;
-    }
+    public bool canLoseHealth = true;
 
     public override void GetAttack(int damage, Vector2 position, bool isUp = false) {
         base.GetAttack(damage, position, isUp);
+
+        if (damageParticle) {
+            ParticleSystem particleSystem = Instantiate(damageParticle, transform.position, Quaternion.identity);
+            particleSystem.Play();
+        }
 
         if (IsDead()){
             return;
         }
 
-        currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
+        if (canLoseHealth) {
+            currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
+            CheckDead();
+        }
+        
         OnTakeDamage?.Invoke(isUp ? (Vector2)transform.position + Vector2.down : position);
         
-        CheckDead();
     }
 
     private void CheckDead() {

@@ -16,8 +16,8 @@ TagManager:
   - Attackable
   - Background
   - Spikes
-  - 
-  - 
+  - Grass
+  - Particle
   - 
   - 
   - 
@@ -52,4 +52,10 @@ TagManager:
     locked: 0
   - name: Ground
     uniqueID: 4282858271
+    locked: 0
+  - name: Particle
+    uniqueID: 2960432433
+    locked: 0
+  - name: ForeGround
+    uniqueID: 4206472743
     locked: 0

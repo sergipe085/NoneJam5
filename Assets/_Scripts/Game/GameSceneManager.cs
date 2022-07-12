@@ -35,6 +35,8 @@ public class GameSceneManager : Singleton<GameSceneManager>
 
             if (ao.progress >= 0.9f) {
                 ao.allowSceneActivation = true;
+
+                yield return new WaitForSeconds(1.0f);
                 transitionImage.DOFade(0.0f, 1.0f).From(1.0f);
             }
 

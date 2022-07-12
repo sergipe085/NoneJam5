@@ -16,6 +16,7 @@ public class GameManager : Singleton<GameManager>
         base.Awake();
         currentBoss.GetHealth().OnDie += OnCurrentBossDie;
         currentBoss.SetCurrentLevel(PlayerPrefs.GetInt("bossCurrentLevel"));
+        if (currentBoss.IsDefeated()) OnEndBossEvent?.Invoke();
     }
 
     public void StartBoss() {
@@ -25,7 +26,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     public bool IsBattling() {
-        if (currentBoss.GetBossStateEnum() != BossStateEnum.DEAD && currentBoss.GetBossStateEnum() != BossStateEnum.NONE) {
+        if (currentBoss.GetBossStateEnum() != BossStateEnum.DEAD && currentBoss.GetBossStateEnum() != BossStateEnum.NONE && currentBoss.GetBossStateEnum() != BossStateEnum.TUTORIAL) {
             return true;
         }
 
@@ -42,11 +43,6 @@ public class GameManager : Singleton<GameManager>
 
         PlayerPrefs.SetInt("bossCurrentLevel", currentBoss.GetCurrentLevel());
         PlayerPrefs.Save();
-
-        if (currentBoss.IsDefeated()) {
-            Debug.Log("WIN");
-            StartCoroutine(PlayerWinEnumerator());
-        }
     }
 
     private IEnumerator PlayerWinEnumerator() {
@@ -60,6 +56,10 @@ public class GameManager : Singleton<GameManager>
         }
 
         if (Input.GetKeyDown(KeyCode.E)) {
+            if (currentBoss.IsDefeated()) {
+                StartCoroutine(PlayerWinEnumerator());
+            }
+
             if (IsBattling() || currentBoss.IsDefeated() || BossUIManager.Instance.isChanging) return;
 
             StartBoss();

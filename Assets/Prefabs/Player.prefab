@@ -199,15 +199,14 @@ MonoBehaviour:
   rig: {fileID: 6854562848874365583}
   scale: {fileID: 6854562848874365581}
   spriteRenderer: {fileID: 4624715559011214792}
+  properties: {fileID: 11400000, guid: 29c509310b75dd64ea6fb106760be394, type: 2}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   mover: {fileID: 6854562848874365618}
   attacker: {fileID: 6854562848874365619}
   dasher: {fileID: 6854562848874365616}
-  health: {fileID: 0}
-  landScale: {x: 1.8, y: 0.2}
-  jumpScale: {x: 0.2, y: 1.8}
+  health: {fileID: 2090474729}
   attackEffectPrefab: {fileID: 4693169576119657651, guid: a7813a91b47b92f4db7710c57202f12b, type: 3}
 --- !u!114 &6854562848874365581
 MonoBehaviour:
@@ -283,7 +282,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05ca544a183f55548a767bfde41ad139, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1
+  owner: {fileID: 1193683808927106440, guid: bfdd75cf88f85984a9be263653ee70c5, type: 3}
+  maxHealth: 100
+  currentHealth: 0
+  damageParticle: {fileID: 1193683808927106442, guid: bfdd75cf88f85984a9be263653ee70c5, type: 3}
 --- !u!1 &6854562849469446990
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,9 +417,9 @@ MonoBehaviour:
   m_ComponentVersion: 1
   m_LightType: 3
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.2
+  m_FalloffIntensity: 1
+  m_Color: {r: 0.3443396, g: 0.608258, b: 1, a: 1}
+  m_Intensity: 2
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: 000000001f3b47ff77732cb2
@@ -466,8 +468,8 @@ MonoBehaviour:
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 1
+  m_PointLightInnerRadius: 0.18
+  m_PointLightOuterRadius: 2.01
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1

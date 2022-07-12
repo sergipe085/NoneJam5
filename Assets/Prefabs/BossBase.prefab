@@ -474,8 +474,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  light: {fileID: 2083692550}
-  collider: {fileID: 6227236446152388180}
+  lightContainer: {fileID: 1249744314319842233}
+  col: {fileID: 6227236446152388180}
   health: {fileID: 6227236446152388183}
   attacker: {fileID: 1035568299}
   attackStates:
@@ -497,8 +497,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05ca544a183f55548a767bfde41ad139, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 1193683808927106440, guid: bfdd75cf88f85984a9be263653ee70c5, type: 3}
   maxHealth: 10
   currentHealth: 0
+  damageParticle: {fileID: 1193683808927106442, guid: bfdd75cf88f85984a9be263653ee70c5, type: 3}
 --- !u!114 &6227236446152388184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -567,7 +569,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isActive: 0
   bulletPrefab: {fileID: 2371726405285933877, guid: 31864566bfa43624383e3a47bb3dae1a, type: 3}
-  shootPerSecond: 20
+  shootPerSecond: 10
 --- !u!1 &8959709731248209125
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
+// REFAZER TODA A LOGICA DO BOSS E DO GAME MANAGER QND A JAM ACABAR
 public class BossController : Controller
 {
     public static BossController Instance = null;
@@ -22,6 +24,11 @@ public class BossController : Controller
     [SerializeField] private BossBaseState currentState = null;
     private BossStateEnum currentStateEnum = BossStateEnum.NONE;
 
+    public event Action startBattleEvent = null;
+
+    public event Action BeforeStartBoss = null;
+    public event Action StartBossTutorial = null;
+
     protected void Awake() {
         if (Instance) {
             Destroy(this.gameObject);
@@ -32,11 +39,18 @@ public class BossController : Controller
     }
     
     private void Start() {
-        if (currentLevel >= attackStates.Count) {
+        if (currentLevel == 0) {
+            SwitchState(BossStateEnum.TUTORIAL);
+            Debug.Log("SHOW");
+        }
+        else if (currentLevel >= attackStates.Count) {
             SwitchState(BossStateEnum.DEAD);
+            BeforeStartBoss?.Invoke();
         }
         else {
-            SwitchState(BossStateEnum.NONE);
+            health.Reset();
+            SwitchState(BossStateEnum.DEAD);
+            BeforeStartBoss?.Invoke();
         }
     }
 
@@ -52,9 +66,11 @@ public class BossController : Controller
 
     protected virtual void GetAttack() {
         scale.ChangeScale(new Vector2(2.5f, 2.5f));
+        GameEffectManager.Instance.DistortionPulse(0.3f, 50.0f);
     }
 
     public virtual void SwitchState(BossBaseState newState, BossBaseState nextState) {
+        health.canLoseHealth = true;
         currentState?.Exit();
         currentState = newState;
 
@@ -67,13 +83,14 @@ public class BossController : Controller
 
     public virtual void SwitchState(BossStateEnum bossStateEnum) {
         currentStateEnum = bossStateEnum;
+        health.canLoseHealth = true;
 
         switch(bossStateEnum) {
             case BossStateEnum.IDLE:
                 SwitchState(idleState, null);
                 break;
             case BossStateEnum.ATTACKING:
-                int index = Random.Range(0, Mathf.Clamp(currentLevel + 1, 1, attackStates.Count));
+                int index = UnityEngine.Random.Range(0, Mathf.Clamp(currentLevel + 1, 1, attackStates.Count));
                 SwitchState(attackStates[index], null);
                 break;
             case BossStateEnum.DEAD:
@@ -87,11 +104,22 @@ public class BossController : Controller
             case BossStateEnum.NONE:
                 col.enabled = false;
                 break;
+            case BossStateEnum.TUTORIAL:
+                lightContainer.SetActive(false);
+                rig.isKinematic = false;
+                rig.velocity = Vector2.zero;
+                anim.SetBool("Dead", true);
+                health.SetHealth(0);
+                col.enabled = true;
+                health.canLoseHealth = false;
+                StartBossTutorial?.Invoke();
+                break;
         }
     }
 
     public void StartBattle() {
         SwitchState(idleState, attackStates[Mathf.Clamp(currentLevel, 0, attackStates.Count - 1)]);
+        startBattleEvent?.Invoke();
     }
 
     public void Initialize() {
@@ -150,4 +178,4 @@ public class BossController : Controller
     }
 }
 
-public enum BossStateEnum { IDLE, ATTACKING, DEAD, NONE }
+public enum BossStateEnum { IDLE, ATTACKING, DEAD, NONE, TUTORIAL }

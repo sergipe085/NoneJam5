@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,10 +33,12 @@ public class PlayerController : Controller
 
     private void OnEnable() {
         health.OnTakeDamage += HandleTakeDamage;
+        health.OnDie += OnDie;
     }
 
     private void OnDisable() {
         health.OnTakeDamage -= HandleTakeDamage;
+        health.OnDie -= OnDie;
     }
 
     private void Awake() {
@@ -44,6 +47,10 @@ public class PlayerController : Controller
         } else {
             Instance = this;
         }
+    }
+
+    private void Start() {
+        health.Reset();
     }
 
     private void Update() {
@@ -136,6 +143,7 @@ public class PlayerController : Controller
 
                 rig.velocity = Vector2.zero;
                 rig.AddForce(-attackDirection * 15.0f, ForceMode2D.Impulse);
+                GameEffectManager.Instance.DistortionPulse(0.2f, 50.0f);
             }, attackDirection, 2);
             GameObject attackEffect = Instantiate(attackEffectPrefab, transform);
             attackEffect.transform.position = hitbox.transform.position;
@@ -191,5 +199,11 @@ public class PlayerController : Controller
 
         mover.ReturnMove();
         dasher.Dash((Vector2)transform.position - position, properties.dashTakeDamageForce, properties.dashTakeDamageLength);
+    }
+
+    private void OnDie() {
+        rig.velocity = Vector2.zero;
+        rig.isKinematic = false;
+        this.enabled = false;
     }
 }
