@@ -343,6 +343,7 @@ MonoBehaviour:
   - {fileID: 8235803713570201974}
   - {fileID: 1200482758}
   idleState: {fileID: 1035568300}
+  currentState: {fileID: 0}
 --- !u!114 &6227236446152388183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,4 +426,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isActive: 0
   bulletPrefab: {fileID: 2371726405285933877, guid: 31864566bfa43624383e3a47bb3dae1a, type: 3}
-  shootPerSecond: 10
+  shootPerSecond: 80

@@ -11,6 +11,7 @@ public class Health : Attackable
 
     public event Action<Vector2> OnTakeDamage = null;
     public event Action OnDie = null;
+    public event Action OnReset = null;
 
     private void Start() {
         currentHealth = maxHealth;
@@ -19,6 +20,9 @@ public class Health : Attackable
     public override void GetAttack(int damage, Vector2 position) {
         base.GetAttack(damage, position);
 
+        if (IsDead()) return;
+
+
         currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
         OnTakeDamage?.Invoke(position);
         
@@ -26,9 +30,13 @@ public class Health : Attackable
     }
 
     private void CheckDead() {
-        if (currentHealth <= 0) {
+        if (IsDead()) {
             Die();
         }
+    }
+
+    private bool IsDead() {
+        return currentHealth <= 0;
     }
 
     private void Die() {
@@ -38,5 +46,10 @@ public class Health : Attackable
     
     public float GetHealthPercentage() {
         return 1.0f * currentHealth / maxHealth;
+    }
+
+    public void Reset() {
+        currentHealth = maxHealth;
+        OnReset?.Invoke();
     }
 }

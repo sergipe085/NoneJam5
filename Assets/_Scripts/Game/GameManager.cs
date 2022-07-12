@@ -9,17 +9,26 @@ public class GameManager : Singleton<GameManager>
     [Header("--- CORE ---")]
     [SerializeField] private BossController currentBoss = null;
 
-    public event Action<BossController> OnStartBossEvent = null;
+    public event Action OnStartBossEvent = null;
     public event Action OnEndBossEvent = null;
 
-    public void StartBoss(BossController boss) {
-        currentBoss = boss;
+    private void Start() {
+        currentBoss = BossController.Instance;
         currentBoss.GetHealth().OnDie += OnCurrentBossDie;
-        OnStartBossEvent?.Invoke(boss);
+    }
+
+    public void StartBoss() {
+        currentBoss.Initialize();
+        currentBoss.StartBattle();
+        OnStartBossEvent?.Invoke();
     }
 
     public bool IsBattling() {
-        return currentBoss != null;
+        if (currentBoss.GetBossStateEnum() != BossStateEnum.DEAD && currentBoss.GetBossStateEnum() != BossStateEnum.NONE) {
+            return true;
+        }
+
+        return false;
     }
 
     public BossController GetCurrentBoss() {
@@ -27,13 +36,29 @@ public class GameManager : Singleton<GameManager>
     }
 
     private void OnCurrentBossDie() {
-        currentBoss = null;
+        currentBoss.LevelUp();
         OnEndBossEvent?.Invoke();
+
+        if (currentBoss.IsDefeated()) {
+            Debug.Log("WIN");
+            StartCoroutine(PlayerWinEnumerator());
+        }
+    }
+
+    private IEnumerator PlayerWinEnumerator() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        yield break;
     }
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Backspace)) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        if (Input.GetKeyDown(KeyCode.E)) {
+            if (IsBattling() || currentBoss.IsDefeated()) return;
+
+            StartBoss();
         }
     }
 }

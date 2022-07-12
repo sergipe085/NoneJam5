@@ -13,6 +13,7 @@ public class Controller : MonoBehaviour
     [Header("--- GERAL ---")]
     [SerializeField] protected ControllerProperties properties = null;
     [SerializeField] protected LayerMask groundLayer;
+    protected int currentLevel = 0;
 
     public void AddForce(Vector2 direction, float force) {
         rig.AddForce(force * direction, ForceMode2D.Impulse);
@@ -28,5 +29,9 @@ public class Controller : MonoBehaviour
 
     public bool OnGround() {
         return Physics2D.OverlapBox(transform.position, new Vector2(1f, 0.5f), 0, groundLayer);
+    }
+
+    public void LevelUp() {
+        currentLevel += 1;
     }
 }

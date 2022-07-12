@@ -6,6 +6,7 @@ using UnityEngine;
 public abstract class BossBaseState : MonoBehaviour
 {
     protected BossController bossController = null;
+    protected BossBaseState nextState = null;
 
     public bool isActive = false;
 
@@ -20,5 +21,9 @@ public abstract class BossBaseState : MonoBehaviour
 
     public virtual void Exit() {
         isActive = false;
+    }
+
+    public void SetNextState(BossBaseState nextState) {
+        this.nextState = nextState;
     }
 }

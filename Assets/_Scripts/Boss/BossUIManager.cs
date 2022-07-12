@@ -21,9 +21,10 @@ public class BossUIManager : MonoBehaviour
         DOTween.Init(DOTween.defaultAutoKill);
     }
 
-    private void GameManager_OnStartBoss(BossController bossController) {
-        currentBoss = bossController;
+    private void GameManager_OnStartBoss() {
+        currentBoss = BossController.Instance;
         currentBoss.GetHealth().OnTakeDamage += (pos) => UpdateHealth();
+        currentBoss.GetHealth().OnReset += UpdateHealth;
 
         StartCoroutine(ShowBossUI(currentBoss.gameObject.name));
     }
@@ -45,6 +46,7 @@ public class BossUIManager : MonoBehaviour
 
         for(int i = bossName.text.Length - 1; i >= 0; i--) {
             if (i < bossName.text.Length) bossName.text = bossName.text.Remove(i);
+
             yield return new WaitForSeconds(0.1f);
         }
 
@@ -57,6 +59,8 @@ public class BossUIManager : MonoBehaviour
         bossUI.SetActive(true);
         bossHealthSlider.value = 0.0f;
         bossName.text = "";
+
+        bossHealthSlider.transform.DOScaleX(1, 0.8f);
 
         foreach(char a in _bossName) {
             bossName.text += a;

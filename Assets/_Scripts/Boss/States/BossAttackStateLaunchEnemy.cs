@@ -27,7 +27,6 @@ public class BossAttackStateLaunchEnemy : BossBaseState
         target = PlayerController.Instance.GetComponent<Health>();
 
         rig = bossController.GetRigidbody2D();
-        bossController.GetCollider().enabled = true;
         Initialize();
     }
 
@@ -39,6 +38,7 @@ public class BossAttackStateLaunchEnemy : BossBaseState
 
         currentShootTime = 0.0f;
         currentTime = 0.0f;
+        bossController.GetCollider().enabled = true;
     }
 
     public override void Update() {

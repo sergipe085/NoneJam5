@@ -43,7 +43,8 @@ public class BossIdleState : BossBaseState
 
         currentTime += Time.deltaTime;
         if (currentTime >= timeToChange) {
-            bossController.SwitchState(BossStateEnum.ATTACKING);
+            if (nextState) bossController.SwitchState(nextState, null);
+            else bossController.SwitchState(BossStateEnum.ATTACKING);
         }
     }
 

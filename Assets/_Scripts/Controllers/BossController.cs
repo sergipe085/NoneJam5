@@ -5,6 +5,8 @@ using UnityEngine.Rendering.Universal;
 
 public class BossController : Controller
 {
+    public static BossController Instance = null;
+    
     [Header("--- GERAL ---")]
     [SerializeField] private Light2D light = null;
 
@@ -20,6 +22,14 @@ public class BossController : Controller
     [SerializeField] private BossBaseState currentState = null;
     private BossStateEnum currentStateEnum = BossStateEnum.NONE;
 
+    private void Awake() {
+        if (Instance) {
+            Destroy(this.gameObject);
+        }
+        else {
+            Instance = this;
+        }
+    }
     
     private void Start() {
         SwitchState(BossStateEnum.NONE);
@@ -35,25 +45,18 @@ public class BossController : Controller
         health.OnDie -= OnDie;
     }
 
-    private void Update() {
-        if (GameManager.Instance.IsBattling() || currentStateEnum == BossStateEnum.DEAD) return;
-
-        float distanceToPlayer = Vector2.Distance(transform.position, PlayerController.Instance.transform.position);
-        if (distanceToPlayer <= 5.0f) {
-            GameManager.Instance.StartBoss(this);
-            SwitchState(BossStateEnum.IDLE);
-        }
-    }
-
     protected virtual void GetAttack() {
         scale.ChangeScale(new Vector2(2.5f, 2.5f));
     }
 
-    public virtual void SwitchState(BossBaseState newState) {
-        Debug.Log(newState);
-
+    public virtual void SwitchState(BossBaseState newState, BossBaseState nextState) {
         currentState?.Exit();
         currentState = newState;
+
+        if (newState) {
+            currentState.SetNextState(nextState);
+        }
+
         currentState?.Enter(this);
     }
 
@@ -62,29 +65,50 @@ public class BossController : Controller
 
         switch(bossStateEnum) {
             case BossStateEnum.IDLE:
-                SwitchState(idleState);
+                SwitchState(idleState, null);
                 break;
             case BossStateEnum.ATTACKING:
-                int index = Random.Range(0, attackStates.Count);
-                SwitchState(attackStates[index]);
+                int index = Random.Range(0, Mathf.Clamp(currentLevel + 1, 1, attackStates.Count));
+                SwitchState(attackStates[index], null);
                 break;
             case BossStateEnum.DEAD:
                 break;
             case BossStateEnum.NONE:
+                collider.enabled = false;
                 break;
         }
     }
 
-    private void OnDie() {
-        currentState.isActive = false;
-        GameEffectManager.Instance.DistortionPulse(0.8f, 30.0f);
-        light.intensity = 0;
-        rig.isKinematic = false;
-        this.enabled = false;
+    public void StartBattle() {
+        SwitchState(idleState, attackStates[Mathf.Clamp(currentLevel, 0, attackStates.Count - 1)]);
     }
 
-    private void OnExitState() {
+    public void Initialize() {
+        light.intensity = 1;
+        rig.isKinematic = true;
+        health.Reset();
+    }
+
+    private void OnDie() {
+        if (currentStateEnum == BossStateEnum.DEAD) return;
+
+        GameEffectManager.Instance.DistortionPulse(0.8f, 30.0f);
+
+        currentState?.Exit();
         currentState = null;
+
+        SwitchState(BossStateEnum.DEAD);
+        
+        light.intensity = 0;
+        rig.isKinematic = false;
+    }
+
+    public bool IsDefeated() {
+        return currentLevel == attackStates.Count && currentStateEnum == BossStateEnum.DEAD;
+    }
+
+    public BossStateEnum GetBossStateEnum() {
+        return currentStateEnum;
     }
 
     public Attacker GetAttacker() {
