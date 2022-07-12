@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &18269302 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1249744314319842233, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
+  m_PrefabInstance: {fileID: 268516145}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &33969633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,25 +338,13 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 6227236446152388182, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
-      propertyPath: attackStates.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6227236446152388182, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
-      propertyPath: attackStates.Array.data[0]
+      propertyPath: col
       value: 
-      objectReference: {fileID: 1200482758}
+      objectReference: {fileID: 1241416250}
     - target: {fileID: 6227236446152388182, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
-      propertyPath: attackStates.Array.data[1]
+      propertyPath: lightContainer
       value: 
-      objectReference: {fileID: 1200482770}
-    - target: {fileID: 6227236446152388182, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
-      propertyPath: attackStates.Array.data[2]
-      value: 
-      objectReference: {fileID: 1200482770}
-    - target: {fileID: 6227236446152388182, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
-      propertyPath: attackStates.Array.data[3]
-      value: 
-      objectReference: {fileID: 1200482758}
+      objectReference: {fileID: 18269302}
     - target: {fileID: 6227236446152388185, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -399,10 +392,6 @@ PrefabInstance:
     - target: {fileID: 6227236446152388186, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
       propertyPath: m_Name
       value: BossBase (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 8235803713570201974, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
-      propertyPath: shootPerSecond
-      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
@@ -1421,13 +1410,25 @@ PrefabInstance:
       propertyPath: m_CullingMask.m_Bits
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 7977890555156557388, guid: 83cd6f249c43cfa41a9c97b12b50eb95, type: 3}
+      propertyPath: m_NormalizedViewPortRect.width
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7977890555156557388, guid: 83cd6f249c43cfa41a9c97b12b50eb95, type: 3}
+      propertyPath: m_NormalizedViewPortRect.height
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7977890555156557488, guid: 83cd6f249c43cfa41a9c97b12b50eb95, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7977890555156557488, guid: 83cd6f249c43cfa41a9c97b12b50eb95, type: 3}
       propertyPath: m_AssetsPPU
-      value: 32
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7977890555156557488, guid: 83cd6f249c43cfa41a9c97b12b50eb95, type: 3}
+      propertyPath: m_GridSnapping
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7977890555156557491, guid: 83cd6f249c43cfa41a9c97b12b50eb95, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1513,28 +1514,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 2371726405285933877, guid: 31864566bfa43624383e3a47bb3dae1a, type: 3}
   maxBullets: 500
---- !u!114 &1200482758 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1200482758, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
-  m_PrefabInstance: {fileID: 268516145}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14a08f597fec2494d9c25c41de96173a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1200482770 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8235803713570201974, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
-  m_PrefabInstance: {fileID: 268516145}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fab0748ebbe3975478ea27487a6dad5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1231704267
 GameObject:
   m_ObjectHideFlags: 0
@@ -3749,6 +3728,11 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!61 &1241416250 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 6227236446152388180, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
+  m_PrefabInstance: {fileID: 268516145}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1308065852
 GameObject:
   m_ObjectHideFlags: 0

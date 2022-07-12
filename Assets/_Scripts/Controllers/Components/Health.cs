@@ -20,8 +20,9 @@ public class Health : Attackable
     public override void GetAttack(int damage, Vector2 position) {
         base.GetAttack(damage, position);
 
-        if (IsDead()) return;
-
+        if (IsDead()){
+            return;
+        }
 
         currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
         OnTakeDamage?.Invoke(position);
@@ -46,6 +47,10 @@ public class Health : Attackable
     
     public float GetHealthPercentage() {
         return 1.0f * currentHealth / maxHealth;
+    }
+
+    public void SetHealth(int newHealth) {
+        currentHealth = Mathf.Clamp(newHealth, 0, maxHealth);
     }
 
     public void Reset() {

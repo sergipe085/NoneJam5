@@ -77,6 +77,7 @@ public class BossTestState : BossBaseState
 
     public override void Exit() {
         base.Exit();
+        bossController.GetCollider().enabled = true;
     }
 
     private IEnumerator Attack() {
@@ -115,6 +116,8 @@ public class BossTestState : BossBaseState
     }
 
     private void Stop() {
+        if (!isActive) return;
+
         rig.isKinematic = true;
         rig.velocity = Vector2.zero;
         bossController.GetCollider().enabled = false;

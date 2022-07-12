@@ -8,10 +8,10 @@ public class BossController : Controller
     public static BossController Instance = null;
     
     [Header("--- GERAL ---")]
-    [SerializeField] private Light2D light = null;
+    [SerializeField] private GameObject lightContainer = null;
 
     [Header("--- COMPONENTS ---")]
-    [SerializeField] private Collider2D collider = null;
+    [SerializeField] private Collider2D col = null;
     [SerializeField] private Health health = null;
     [SerializeField] private Attacker attacker = null;
 
@@ -32,7 +32,12 @@ public class BossController : Controller
     }
     
     private void Start() {
-        SwitchState(BossStateEnum.NONE);
+        if (currentLevel >= attackStates.Count) {
+            SwitchState(BossStateEnum.DEAD);
+        }
+        else {
+            SwitchState(BossStateEnum.NONE);
+        }
     }
 
     private void OnEnable() {
@@ -72,9 +77,14 @@ public class BossController : Controller
                 SwitchState(attackStates[index], null);
                 break;
             case BossStateEnum.DEAD:
+                lightContainer.SetActive(false);
+                rig.isKinematic = false;
+                anim.SetBool("Dead", true);
+                health.SetHealth(0);
+                col.enabled = true;
                 break;
             case BossStateEnum.NONE:
-                collider.enabled = false;
+                col.enabled = false;
                 break;
         }
     }
@@ -84,27 +94,38 @@ public class BossController : Controller
     }
 
     public void Initialize() {
-        light.intensity = 1;
+        lightContainer.SetActive(true);
         rig.isKinematic = true;
         health.Reset();
+        anim.SetBool("Dead", false);
     }
 
     private void OnDie() {
-        if (currentStateEnum == BossStateEnum.DEAD) return;
-
         GameEffectManager.Instance.DistortionPulse(0.8f, 30.0f);
 
         currentState?.Exit();
         currentState = null;
 
+        Debug.Log("Dead");
+
         SwitchState(BossStateEnum.DEAD);
-        
-        light.intensity = 0;
-        rig.isKinematic = false;
+        col.enabled = true;
     }
 
     public bool IsDefeated() {
         return currentLevel == attackStates.Count && currentStateEnum == BossStateEnum.DEAD;
+    }
+
+    public int GetCurrentLevel() {
+        return currentLevel;
+    }
+
+    public void SetCurrentLevel(int level) {
+        currentLevel = Mathf.Clamp(level, 0, attackStates.Count);
+    }
+
+    public void LevelUp() {
+        currentLevel = Mathf.Clamp(currentLevel + 1, 0, attackStates.Count);
     }
 
     public BossStateEnum GetBossStateEnum() {
@@ -120,7 +141,7 @@ public class BossController : Controller
     }
 
     public Collider2D GetCollider() {
-        return collider;
+        return col;
     }
 
     public ControllerProperties GetProperties() {

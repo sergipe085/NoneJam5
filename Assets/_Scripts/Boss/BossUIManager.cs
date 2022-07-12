@@ -30,6 +30,10 @@ public class BossUIManager : MonoBehaviour
     }
 
     private void GameManager_OnEndBoss() {
+        currentBoss = BossController.Instance;
+        currentBoss.GetHealth().OnTakeDamage -= (pos) => UpdateHealth();
+        currentBoss.GetHealth().OnReset -= UpdateHealth;
+
         StartCoroutine(HideBossUI());
     }
 
