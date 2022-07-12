@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Attackable : MonoBehaviour
+public class Attackable : MonoBehaviour
 {
+    public GameObject owner = null;
     public event Action GetAttackEvent = null;  
 
-    public virtual void GetAttack(int damage, Vector2 position) {
+    public virtual void GetAttack(int damage, Vector2 position, bool isUp = false) {
         GetAttackEvent?.Invoke();
     }
 }

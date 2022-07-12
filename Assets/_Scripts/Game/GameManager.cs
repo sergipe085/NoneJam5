@@ -12,8 +12,8 @@ public class GameManager : Singleton<GameManager>
     public event Action OnStartBossEvent = null;
     public event Action OnEndBossEvent = null;
 
-    private void Start() {
-        currentBoss = BossController.Instance;
+    protected override void Awake() {
+        base.Awake();
         currentBoss.GetHealth().OnDie += OnCurrentBossDie;
         currentBoss.SetCurrentLevel(PlayerPrefs.GetInt("bossCurrentLevel"));
     }
@@ -41,6 +41,7 @@ public class GameManager : Singleton<GameManager>
         OnEndBossEvent?.Invoke();
 
         PlayerPrefs.SetInt("bossCurrentLevel", currentBoss.GetCurrentLevel());
+        PlayerPrefs.Save();
 
         if (currentBoss.IsDefeated()) {
             Debug.Log("WIN");
@@ -49,7 +50,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     private IEnumerator PlayerWinEnumerator() {
-        // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        GameSceneManager.Instance.LoadScene("MenuScene");
         yield break;
     }
 

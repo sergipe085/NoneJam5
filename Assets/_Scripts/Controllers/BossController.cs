@@ -22,7 +22,7 @@ public class BossController : Controller
     [SerializeField] private BossBaseState currentState = null;
     private BossStateEnum currentStateEnum = BossStateEnum.NONE;
 
-    private void Awake() {
+    protected void Awake() {
         if (Instance) {
             Destroy(this.gameObject);
         }
@@ -79,6 +79,7 @@ public class BossController : Controller
             case BossStateEnum.DEAD:
                 lightContainer.SetActive(false);
                 rig.isKinematic = false;
+                rig.velocity = Vector2.zero;
                 anim.SetBool("Dead", true);
                 health.SetHealth(0);
                 col.enabled = true;

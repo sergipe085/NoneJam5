@@ -131,7 +131,12 @@ public class PlayerController : Controller
         if (attackInput) {
             Vector2 attackDirection = new Vector2(lookDirection.y == 0 ? lookDirection.x : 0, lookDirection.y);
 
-            Hitbox hitbox = attacker.Attack(attackDirection, 2);
+            Hitbox hitbox = attacker.Attack((att) => {
+                if (attackDirection != Vector2.down) return;
+
+                rig.velocity = Vector2.zero;
+                rig.AddForce(-attackDirection * 15.0f, ForceMode2D.Impulse);
+            }, attackDirection, 2);
             GameObject attackEffect = Instantiate(attackEffectPrefab, transform);
             attackEffect.transform.position = hitbox.transform.position;
             attackEffect.transform.up = attackDirection;

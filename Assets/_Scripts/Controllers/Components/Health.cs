@@ -17,15 +17,15 @@ public class Health : Attackable
         currentHealth = maxHealth;
     }
 
-    public override void GetAttack(int damage, Vector2 position) {
-        base.GetAttack(damage, position);
+    public override void GetAttack(int damage, Vector2 position, bool isUp = false) {
+        base.GetAttack(damage, position, isUp);
 
         if (IsDead()){
             return;
         }
 
         currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
-        OnTakeDamage?.Invoke(position);
+        OnTakeDamage?.Invoke(isUp ? (Vector2)transform.position + Vector2.down : position);
         
         CheckDead();
     }

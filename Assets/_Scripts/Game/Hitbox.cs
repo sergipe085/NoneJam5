@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Hitbox : MonoBehaviour
 {
-    private GameObject owner = null;
+    [SerializeField] private GameObject owner = null;
     private Action<Attackable> OnHit;
 
     public void Initialize(GameObject _owner, float size, Action<Attackable> _OnHit) {
@@ -15,9 +15,10 @@ public class Hitbox : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D col) {
-        if (col.gameObject == owner) return;
-
         Attackable other = col.GetComponent<Attackable>();
+
+        if (other.owner == owner || col.gameObject == owner) return;
+
         if (other) {
             other.GetAttack(1, transform.position);
             OnHit?.Invoke(other);
