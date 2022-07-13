@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : Controller
 {
@@ -202,8 +203,6 @@ public class PlayerController : Controller
     }
 
     private void OnDie() {
-        rig.velocity = Vector2.zero;
-        rig.isKinematic = false;
-        this.enabled = false;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

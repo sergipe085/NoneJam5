@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
+using System;
 
 public class BossDialogueManager : MonoBehaviour
 {
@@ -8,21 +10,24 @@ public class BossDialogueManager : MonoBehaviour
     [SerializeField] private GameObject dialogueUI = null;
     [SerializeField] private TMPro.TextMeshProUGUI text = null;
 
+    private void Start() {
+        DOTween.Init();
+    }
+
     private void Awake() {
-        GameManager.Instance.OnEndBossEvent += ShowDialogue;
+        // GameManager.Instance.OnEndBossEvent += ShowDialogue;
         GameManager.Instance.OnStartBossEvent += HideDialogue;
         BossController.Instance.BeforeStartBoss += ShowDialogue;
         BossController.Instance.StartBossTutorial += ShowTutorialDialogue;
+
+        BossUIManager.Instance.StopHiding += ShowDialogue;
     }
 
     private void ShowTutorialDialogue() {
-        dialogueUI.SetActive(true);
-        text.text = "Tuto. Treine o quanto quiser e depois aperte (E) para batalhar comigo";
+        StartCoroutine(ShowDialogEnumerator("WASD (MOVE) L (PULA) K (DASH) J (ATACA). Treine o quanto quiser e depois aperte (E) para batalhar comigo."));
     }
 
     private void ShowDialogue() {
-        dialogueUI.SetActive(true);
-
         if (BossController.Instance.IsDefeated()) {
             ShowPlayerWin();
             return;
@@ -30,17 +35,46 @@ public class BossDialogueManager : MonoBehaviour
 
         int curLevel = BossController.Instance.GetCurrentLevel();
         if (dialogueSO.dialogues[curLevel] != null) {
-            text.text = dialogueSO.dialogues[curLevel];
+            StartCoroutine(ShowDialogEnumerator(dialogueSO.dialogues[curLevel]));
         }
     }
 
     private void ShowPlayerWin() {
-        dialogueUI.SetActive(true);
-        text.text = "Oh, voce me derrotou!! Foi uma boa luta. Aperte (E) para ir ao menu.";
+        StartCoroutine(ShowDialogEnumerator("Oh, voce me derrotou!! Foi uma boa luta. Aperte (E) para ir ao menu."));
     }
 
-    private void HideDialogue() {
+    public void HideDialogue() {
+        StartCoroutine(HideDialogEnumerator());
+    }
+
+    private IEnumerator ShowDialogEnumerator(string message) {
+
+        BossUIManager.Instance.isChanging = true;
         dialogueUI.SetActive(false);
         text.text = "";
+
+        yield return new WaitForSeconds(0.5f);
+
+        dialogueUI.transform.DOMoveY(200, 1.0f).From(-1000f);
+        dialogueUI.SetActive(true);
+
+        yield return new WaitForSeconds(1.0f);
+
+        string curText = "";
+        foreach (char a in message + "\n\nAperte(E) para continuar...") {
+            curText += a;
+            text.text = curText;
+            yield return new WaitForSeconds(0.04f);
+        }
+
+        BossUIManager.Instance.isChanging = false;
+    }
+
+    private IEnumerator HideDialogEnumerator() {
+        dialogueUI.transform.DOMoveY(-1000f, 1.0f).OnComplete(() => { 
+            dialogueUI.SetActive(false);
+            text.text = "";
+        });
+        yield return null;
     }
 }

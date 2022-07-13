@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System;
 
 public class BossUIManager : Singleton<BossUIManager>
 {
@@ -13,6 +14,8 @@ public class BossUIManager : Singleton<BossUIManager>
     private BossController currentBoss = null;
 
     public bool isChanging = false;
+
+    public event Action StopHiding = null;
 
     private void Start() {
         ClearBossUI();
@@ -63,6 +66,7 @@ public class BossUIManager : Singleton<BossUIManager>
         bossHealthSlider.transform.DOScaleX(0, 0.8f).OnComplete(() => {
             bossUI.SetActive(false);
             isChanging = false;
+            StopHiding?.Invoke();
         });
     }
 
