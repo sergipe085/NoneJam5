@@ -21,6 +21,7 @@ public class PlayerController : Controller
     private bool attackInput = false;
     private bool dashInput = false;
     private bool lastOnGround = false;
+    private bool canDash = true;
 
     [Header("--- ANIMATION ---")]
     private int isRunningHash = Animator.StringToHash("isRunning");
@@ -159,8 +160,9 @@ public class PlayerController : Controller
     private void HandleDash() {
         if (!dasher) return;
 
-        if (dashInput) {
+        if (dashInput && canDash) {
             dasher.Dash(lookDirection);
+            canDash = false;
         }
     }
 
@@ -177,6 +179,7 @@ public class PlayerController : Controller
     private void Land() {
         scale.ChangeScale(properties.landScale);
         HandleLandAnimation();
+        canDash = true;
     }
 
     private void HandleLandAnimation() {
