@@ -58,7 +58,6 @@ public class BossAttackStateFollow : BossBaseState
 
         if (attackinEffect) return;
 
-        //transform.position = Vector2.Lerp(transform.position, initialPosition + new Vector2(Mathf.Cos(currentTime), Mathf.Sin(currentTime)) * 5.0f, 10.0f * Time.deltaTime);
         rig.velocity += Time.deltaTime * ((Vector2)transform.position - (Vector2)target.transform.position).normalized * -speed;
         rig.velocity = Vector2.ClampMagnitude(rig.velocity, maxVelocity);
     }
@@ -67,6 +66,7 @@ public class BossAttackStateFollow : BossBaseState
         base.Exit();
         if (hitbox) Destroy(hitbox.gameObject);
         rig.gravityScale = 1;
+        bossController.GetCollider().isTrigger = false;
     }
 
     private IEnumerator OnHit() {
@@ -86,7 +86,10 @@ public class BossAttackStateFollow : BossBaseState
 
         yield return new WaitForSeconds(0.3f);
 
-        Initialize();
+        if (isActive) {
+            Initialize();
+
+        }
     }
 
     private void Break() {
