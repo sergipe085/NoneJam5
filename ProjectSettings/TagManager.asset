@@ -44,6 +44,9 @@ TagManager:
   - name: Collision
     uniqueID: 4000250693
     locked: 0
+  - name: TileMapBackground
+    uniqueID: 1512866911
+    locked: 0
   - name: Background
     uniqueID: 3341298429
     locked: 0

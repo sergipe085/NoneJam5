@@ -68,7 +68,7 @@ public class BossAttackStateLaunchEnemy : BossBaseState
         Bullet bullet = ObjectPool.Instance.SpawnBullet(transform.position + Vector3.up / 2);
         bullet.Initialize(new Vector2(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f)), 5.0f);
         bullet.owner = this.gameObject;
-        Hitbox hitbox = bossController.GetAttacker().AttachedAttack((att) => ObjectPool.Instance.DestroyBullet(bullet), bullet.transform, 0.5f);
+        Hitbox hitbox = bossController.GetAttacker().AttachedAttack((att) => ObjectPool.Instance.DestroyBullet(bullet), bullet.transform, 0.5f, true);
     }
 
     public override void Exit() {

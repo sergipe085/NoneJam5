@@ -52,6 +52,8 @@ public class PlayerController : Controller
 
     private void Start() {
         health.Reset();
+
+        GameManager.Instance.OnStartBossEvent += () => health.Reset();
     }
 
     private void Update() {
