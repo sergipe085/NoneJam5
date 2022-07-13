@@ -66,4 +66,8 @@ public class Mover : MonoBehaviour
         canMove = true;
         rig.isKinematic = false;
     }
+
+    public void SetIsJumping(bool isJumping) {
+        IsJumping = isJumping;
+    }
 }

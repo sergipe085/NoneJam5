@@ -79,7 +79,7 @@ public class BossUIManager : Singleton<BossUIManager>
 
         bossHealthSlider.transform.DOScaleX(1, 0.8f);
 
-        foreach(char a in _bossName) {
+        foreach(char a in _bossName + " (Level " + (currentBoss.GetCurrentLevel() + 1) +")") {
             bossName.text += a;
             yield return new WaitForSeconds(0.1f);
         }

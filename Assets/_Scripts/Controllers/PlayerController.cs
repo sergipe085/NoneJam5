@@ -146,6 +146,7 @@ public class PlayerController : Controller
 
                 rig.velocity = Vector2.zero;
                 rig.AddForce(-attackDirection * 15.0f, ForceMode2D.Impulse);
+                mover.SetIsJumping(false);
                 GameEffectManager.Instance.DistortionPulse(0.2f, 50.0f);
             }, attackDirection, 2);
             GameObject attackEffect = Instantiate(attackEffectPrefab, transform);
