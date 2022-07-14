@@ -40,8 +40,6 @@ public class BossController : Controller
     }
     
     private void Start() {
-        health.ChangeMaxHealth(maxHealthLevels[GetCurrentLevel()]);
-
         if (currentLevel == 0) {
             SwitchState(BossStateEnum.TUTORIAL);
             Debug.Log("SHOW");
@@ -54,6 +52,10 @@ public class BossController : Controller
             health.Reset();
             SwitchState(BossStateEnum.DEAD);
             BeforeStartBoss?.Invoke();
+        }
+
+        if (!IsDefeated()) {
+            health.ChangeMaxHealth(maxHealthLevels[GetCurrentLevel()]);
         }
     }
 

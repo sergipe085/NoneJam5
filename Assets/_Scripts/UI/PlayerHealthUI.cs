@@ -23,7 +23,7 @@ public class PlayerHealthUI : MonoBehaviour
     }
 
     private void UpdateHealthVisual() {
-        playerHelthSlider.value = PlayerController.Instance.GetHealth().GetHealthPercentage();
+        playerHelthSlider.DOValue(PlayerController.Instance.GetHealth().GetHealthPercentage(), 0.3f).SetEase(Ease.OutCubic);
     }
 
     private void ShowPlayerHealthVisual() {

@@ -43,7 +43,7 @@ public class BossUIManager : Singleton<BossUIManager>
     }
 
     private void UpdateHealth() {
-        bossHealthSlider.value = currentBoss.GetHealth().GetHealthPercentage();
+        bossHealthSlider.DOValue(currentBoss.GetHealth().GetHealthPercentage(), 0.3f).SetEase(Ease.OutCubic);
     }
 
     private void ClearBossUI() {
@@ -84,13 +84,15 @@ public class BossUIManager : Singleton<BossUIManager>
             yield return new WaitForSeconds(0.1f);
         }
 
-        float b = 0;
-        while (b < currentBoss.GetHealth().GetHealthPercentage() - 0.01f) {
-            b = Mathf.Lerp(b, currentBoss.GetHealth().GetHealthPercentage(), Time.deltaTime * 4.0f);
-            bossHealthSlider.value = b;
-            yield return null;
-        }
-        bossHealthSlider.value = currentBoss.GetHealth().GetHealthPercentage();
+        // float b = 0;
+        // while (b < currentBoss.GetHealth().GetHealthPercentage() - 0.01f) {
+        //     b = Mathf.Lerp(b, currentBoss.GetHealth().GetHealthPercentage(), Time.deltaTime * 4.0f);
+        //     bossHealthSlider.value = b;
+        //     yield return null;
+        // }
+        // bossHealthSlider.value = currentBoss.GetHealth().GetHealthPercentage();
+
+        bossHealthSlider.DOValue(currentBoss.GetHealth().GetHealthPercentage(), 1.0f).SetEase(Ease.OutCubic);
 
         isChanging = false;
     }
