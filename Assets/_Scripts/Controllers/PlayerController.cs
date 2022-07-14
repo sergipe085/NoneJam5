@@ -211,4 +211,8 @@ public class PlayerController : Controller
     private void OnDie() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    public Health GetHealth() {
+        return health;
+    }
 }

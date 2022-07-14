@@ -214,7 +214,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -12109025
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: b9985308bea4bf44fad1c0773f08f9bb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -299,7 +299,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -12109025
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 7a693cfcf72481f4baa4d0d8503bd49e, type: 3}
   m_Color: {r: 0.9622642, g: 0.27687788, b: 0.27687788, a: 1}
@@ -384,6 +384,7 @@ GameObject:
   - component: {fileID: 1035568300}
   - component: {fileID: 1200482758}
   - component: {fileID: 8235803713570201974}
+  - component: {fileID: 365062426}
   m_Layer: 8
   m_Name: BossBase
   m_TagString: Untagged
@@ -479,10 +480,10 @@ MonoBehaviour:
   health: {fileID: 6227236446152388183}
   attacker: {fileID: 1035568299}
   attackStates:
+  - {fileID: 365062426}
   - {fileID: 1200482758}
   - {fileID: 8235803713570201974}
   - {fileID: 8235803713570201974}
-  - {fileID: 1200482758}
   idleState: {fileID: 1035568300}
   currentState: {fileID: 0}
 --- !u!114 &6227236446152388183
@@ -501,6 +502,7 @@ MonoBehaviour:
   maxHealth: 10
   currentHealth: 0
   damageParticle: {fileID: 1193683808927106442, guid: bfdd75cf88f85984a9be263653ee70c5, type: 3}
+  canLoseHealth: 1
 --- !u!114 &6227236446152388184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -570,6 +572,21 @@ MonoBehaviour:
   isActive: 0
   bulletPrefab: {fileID: 2371726405285933877, guid: 31864566bfa43624383e3a47bb3dae1a, type: 3}
   shootPerSecond: 10
+--- !u!114 &365062426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6227236446152388186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9c837157b876464c8cfae9cfeb9064e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isActive: 0
+  maxVelocity: 8
+  speed: 20
 --- !u!1 &8959709731248209125
 GameObject:
   m_ObjectHideFlags: 0

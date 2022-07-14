@@ -16,7 +16,13 @@ public class Health : Attackable
     public event Action OnDie = null;
     public event Action OnReset = null;
 
+    public event Action OnHealthChanged = null;
+
     public bool canLoseHealth = true;
+
+    private void Awake() {
+        Reset();
+    }
 
     public override void GetAttack(int damage, Vector2 position, bool isUp = false) {
         base.GetAttack(damage, position, isUp);
@@ -32,6 +38,7 @@ public class Health : Attackable
 
         if (canLoseHealth) {
             currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
+            OnHealthChanged?.Invoke();
             CheckDead();
         }
         
@@ -58,6 +65,10 @@ public class Health : Attackable
         return 1.0f * currentHealth / maxHealth;
     }
 
+    public int GetCurrentHealth() {
+        return currentHealth;
+    }
+
     public void SetHealth(int newHealth) {
         currentHealth = Mathf.Clamp(newHealth, 0, maxHealth);
     }
@@ -65,5 +76,6 @@ public class Health : Attackable
     public void Reset() {
         currentHealth = maxHealth;
         OnReset?.Invoke();
+        OnHealthChanged?.Invoke();
     }
 }
