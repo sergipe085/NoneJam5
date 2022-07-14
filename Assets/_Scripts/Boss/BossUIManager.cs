@@ -79,18 +79,10 @@ public class BossUIManager : Singleton<BossUIManager>
 
         bossHealthSlider.transform.DOScaleX(1, 0.8f);
 
-        foreach(char a in _bossName + " (Level " + (currentBoss.GetCurrentLevel() + 1) +")") {
+        foreach(char a in _bossName + " Level " + (currentBoss.GetCurrentLevel() + 1)) {
             bossName.text += a;
             yield return new WaitForSeconds(0.1f);
         }
-
-        // float b = 0;
-        // while (b < currentBoss.GetHealth().GetHealthPercentage() - 0.01f) {
-        //     b = Mathf.Lerp(b, currentBoss.GetHealth().GetHealthPercentage(), Time.deltaTime * 4.0f);
-        //     bossHealthSlider.value = b;
-        //     yield return null;
-        // }
-        // bossHealthSlider.value = currentBoss.GetHealth().GetHealthPercentage();
 
         bossHealthSlider.DOValue(currentBoss.GetHealth().GetHealthPercentage(), 1.0f).SetEase(Ease.OutCubic);
 

@@ -60,9 +60,9 @@ public class PlayerController : Controller
     private void Update() {
         moveInput.x = Input.GetAxisRaw("Horizontal");
         moveInput.y = Input.GetAxisRaw("Vertical");
-        jumpInput = Input.GetKeyDown(InputMap.Instance.actionDictionary[ACTION.Jump]);
-        attackInput = Input.GetKeyDown(KeyCode.J);
-        dashInput = Input.GetKeyDown(KeyCode.K);
+        jumpInput = Input.GetButtonDown("Jump");
+        attackInput = Input.GetButtonDown("Fire1");
+        dashInput = Input.GetButtonDown("Fire2");
 
         CheckLand();
 
@@ -114,7 +114,7 @@ public class PlayerController : Controller
             scale.ChangeScale(properties.jumpScale);
         }
 
-        if (mover.IsJumping && !Input.GetKey(InputMap.Instance.actionDictionary[ACTION.Jump])) {
+        if (mover.IsJumping && !Input.GetButton("Jump")) {
             if (mover.GetVelocity().y > 0.2f) mover.BreakJump();
             else mover.StopJump();
         }

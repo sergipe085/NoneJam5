@@ -6,21 +6,19 @@ using System;
 public class InputMap : Singleton<InputMap>
 {
     public Dictionary<ACTION, KeyCode> actionDictionary = new();
-    public List<ActionMap> actionList = new();
+    public ActionMapping actionMapping = null;
 
     protected override void Awake() {
         base.Awake();
 
-        foreach(ActionMap actionMap in actionList) {
+        UpdateInputMapping();
+    }
+
+    public void UpdateInputMapping() {
+        foreach(ActionMap actionMap in actionMapping.actionList) {
             actionDictionary.Add(actionMap.action, actionMap.keyCode);
         }
     }
-
-    [Serializable]
-    public struct ActionMap {
-        public ACTION action;
-        public KeyCode keyCode;
-    }
 }
 
-public enum ACTION { Jump, Attack, Dash }
+public enum ACTION { Jump, Attack, Dash, Move_Left, Move_Right }

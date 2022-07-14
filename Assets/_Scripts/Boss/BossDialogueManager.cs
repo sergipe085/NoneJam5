@@ -24,7 +24,7 @@ public class BossDialogueManager : MonoBehaviour
     }
 
     private void ShowTutorialDialogue() {
-        StartCoroutine(ShowDialogEnumerator("WASD (MOVE) L (PULA) K (DASH) J (ATACA). Treine o quanto quiser e depois aperte (E) para batalhar comigo."));
+        StartCoroutine(ShowDialogEnumerator("Move (wasd, seta) \nPula (z, l, espaco) \nDash - (k, x, mouse1, lshift) \nAtaca (j, c, mouse0).\nTreine o quanto quiser e depois aperte (E) para batalhar comigo."));
     }
 
     private void ShowDialogue() {
@@ -61,7 +61,7 @@ public class BossDialogueManager : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
 
         string curText = "";
-        foreach (char a in message + "\n\nAperte(E) para continuar...") {
+        foreach (char a in message + "\nAperte(E) para continuar...") {
             curText += a;
             text.text = curText;
             yield return new WaitForSeconds(0.04f);

@@ -7,12 +7,14 @@ using DG.Tweening;
 public class PlayerHealthUI : MonoBehaviour
 {
     [SerializeField] private Slider playerHelthSlider = null;
+    [SerializeField] private GameObject playerImage = null;
     [SerializeField] private Transform playerHealth = null;
 
     private void Start() {
         PlayerController.Instance.GetHealth().OnHealthChanged += PlayerController_OnHealthChanged;
         GameManager.Instance.OnStartBossEvent += ShowPlayerHealthVisual;
         GameManager.Instance.OnEndBossEvent += HidePlayerHealthVisual;
+        PlayerController.Instance.GetHealth().OnTakeDamage += (pos) => playerImage.transform.DOShakeScale(0.2f);
 
         UpdateHealthVisual();
         HidePlayerHealthVisual();
