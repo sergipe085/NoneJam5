@@ -160,7 +160,9 @@ public class PlayerController : Controller
     private void HandleDash() {
         if (!dasher) return;
 
-        if (dashInput && canDash) {
+        if (lastOnGround) canDash = true;
+
+        if (dashInput && (canDash)) {
             dasher.Dash(lookDirection);
             canDash = false;
         }

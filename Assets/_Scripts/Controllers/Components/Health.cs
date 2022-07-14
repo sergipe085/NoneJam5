@@ -78,4 +78,9 @@ public class Health : Attackable
         OnReset?.Invoke();
         OnHealthChanged?.Invoke();
     }
+
+    public void ChangeMaxHealth(int newMaxHealth) {
+        maxHealth = newMaxHealth;
+        Reset();
+    }
 }

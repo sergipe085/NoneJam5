@@ -11,6 +11,7 @@ public class BossController : Controller
     
     [Header("--- GERAL ---")]
     [SerializeField] private GameObject lightContainer = null;
+    [SerializeField] private List<int> maxHealthLevels = new();
 
     [Header("--- COMPONENTS ---")]
     [SerializeField] private Collider2D col = null;
@@ -39,6 +40,8 @@ public class BossController : Controller
     }
     
     private void Start() {
+        health.ChangeMaxHealth(maxHealthLevels[GetCurrentLevel()]);
+
         if (currentLevel == 0) {
             SwitchState(BossStateEnum.TUTORIAL);
             Debug.Log("SHOW");

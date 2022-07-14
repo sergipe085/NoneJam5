@@ -58,8 +58,15 @@ public class BossAttackStateFollow : BossBaseState
 
         if (attackinEffect) return;
 
-        rig.velocity += Time.deltaTime * ((Vector2)transform.position - (Vector2)target.transform.position).normalized * -speed;
-        rig.velocity = Vector2.ClampMagnitude(rig.velocity, maxVelocity);
+        Vector2 direction = ((Vector2)transform.position - (Vector2)target.transform.position).normalized;
+
+        if (Mathf.RoundToInt(Vector2.Angle(direction, rig.velocity)) == 90) {
+            rig.velocity -= rig.velocity * Time.deltaTime * speed;
+        }
+        else {
+            rig.velocity += Time.deltaTime * direction * -speed;
+            rig.velocity = Vector2.ClampMagnitude(rig.velocity, maxVelocity);
+        }
     }
 
     public override void Exit() {

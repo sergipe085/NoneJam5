@@ -28,7 +28,7 @@ public class BossUIManager : Singleton<BossUIManager>
 
     private void GameManager_OnStartBoss() {
         currentBoss = BossController.Instance;
-        currentBoss.GetHealth().OnTakeDamage += (pos) => UpdateHealth();
+        currentBoss.GetHealth().OnHealthChanged += UpdateHealth;
         currentBoss.GetHealth().OnReset += UpdateHealth;
 
         StartCoroutine(ShowBossUI(currentBoss.gameObject.name));
@@ -36,7 +36,7 @@ public class BossUIManager : Singleton<BossUIManager>
 
     private void GameManager_OnEndBoss() {
         currentBoss = BossController.Instance;
-        currentBoss.GetHealth().OnTakeDamage -= (pos) => UpdateHealth();
+        currentBoss.GetHealth().OnHealthChanged -= UpdateHealth;
         currentBoss.GetHealth().OnReset -= UpdateHealth;
 
         StartCoroutine(HideBossUI());

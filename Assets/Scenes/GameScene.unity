@@ -730,6 +730,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6227236446152388182, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
+      propertyPath: maxHealthLevels.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6227236446152388182, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
+      propertyPath: maxHealthLevels.Array.data[0]
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6227236446152388182, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
+      propertyPath: maxHealthLevels.Array.data[1]
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6227236446152388182, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
+      propertyPath: maxHealthLevels.Array.data[2]
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6227236446152388182, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
+      propertyPath: maxHealthLevels.Array.data[3]
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6227236446152388183, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
+      propertyPath: maxHealthLevels.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6227236446152388183, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
+      propertyPath: maxHealthLevels.Array.data[0]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6227236446152388183, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
+      propertyPath: maxHealthLevels.Array.data[1]
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6227236446152388183, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
+      propertyPath: maxHealthLevels.Array.data[2]
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6227236446152388183, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
+      propertyPath: maxHealthLevels.Array.data[3]
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 6227236446152388185, guid: ee529148ff3ba704daa72d2e2b312fcc, type: 3}
       propertyPath: m_RootOrder
       value: 4

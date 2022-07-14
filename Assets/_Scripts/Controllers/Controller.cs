@@ -30,4 +30,8 @@ public class Controller : MonoBehaviour
     public bool OnGround() {
         return Physics2D.OverlapBox(transform.position, new Vector2(1f, 0.5f), 0, groundLayer);
     }
+
+    public int GetCurrentLevel() {
+        return currentLevel;
+    }
 }
