@@ -24,7 +24,8 @@ public class BossDialogueManager : MonoBehaviour
     }
 
     private void ShowTutorialDialogue() {
-        StartCoroutine(ShowDialogEnumerator("Move (wasd, seta) \nPula (z, l, espaco) \nDash - (k, x, mouse1, lshift) \nAtaca (j, c, mouse0).\nTreine o quanto quiser e depois aperte (E) para batalhar comigo."));
+        StartCoroutine(ShowDialogEnumerator(dialogueSO.tutorialDialogue));
+        //"Move (wasd, seta) \nPula (z, l, espaco) \nDash - (k, x, mouse1, lshift) \nAtaca (j, c, mouse0).\nTreine o quanto quiser e depois aperte (E) para batalhar comigo."
     }
 
     private void ShowDialogue() {

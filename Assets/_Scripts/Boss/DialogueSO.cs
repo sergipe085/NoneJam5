@@ -6,4 +6,5 @@ using UnityEngine;
 public class DialogueSO : ScriptableObject
 {
     public List<string> dialogues = new();
+    public string tutorialDialogue = "";
 }

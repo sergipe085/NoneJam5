@@ -22,6 +22,7 @@ public class PlayerController : Controller
     private bool dashInput = false;
     private bool lastOnGround = false;
     private bool canDash = true;
+    private bool canAttack = true;
 
     [Header("--- ANIMATION ---")]
     private int isRunningHash = Animator.StringToHash("isRunning");
@@ -139,7 +140,10 @@ public class PlayerController : Controller
     private void HandleAttack() {
         if (!attacker) return;
 
-        if (attackInput) {
+        if (attackInput && canAttack) {
+            canAttack = false;
+            StartCoroutine(CanAttackTimer(0.2f));
+
             Vector2 attackDirection = new Vector2(lookDirection.y == 0 ? lookDirection.x : 0, lookDirection.y);
 
             Hitbox hitbox = attacker.Attack((att) => {
@@ -155,6 +159,11 @@ public class PlayerController : Controller
             attackEffect.transform.up = attackDirection;
             attackEffect.transform.localRotation = Quaternion.Euler(0f, 0f, attackEffect.transform.eulerAngles.z + 90f);
         }
+    }
+
+    private IEnumerator CanAttackTimer(float time) {
+        yield return new WaitForSeconds(time);
+        canAttack = true;
     }
 
     private void HandleDash() {

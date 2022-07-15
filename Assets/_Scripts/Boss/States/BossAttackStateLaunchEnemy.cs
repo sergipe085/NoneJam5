@@ -65,10 +65,13 @@ public class BossAttackStateLaunchEnemy : BossBaseState
     }
 
     private void Shoot() {
-        Bullet bullet = ObjectPool.Instance.SpawnBullet(transform.position + Vector3.up / 2);
+        Bullet bullet = ObjectPool.Instance.SpawnBullet2(transform.position + Vector3.up / 2);
+
+        if (!bullet) return;
+
         bullet.Initialize(new Vector2(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f)), 5.0f);
         bullet.owner = this.gameObject;
-        Hitbox hitbox = bossController.GetAttacker().AttachedAttack((att) => ObjectPool.Instance.DestroyBullet(bullet), bullet.transform, 0.5f, true);
+        Hitbox hitbox = bossController.GetAttacker().AttachedAttack((att) => ObjectPool.Instance.DestroyBullet2(bullet), bullet.transform, 0.5f, true);
     }
 
     public override void Exit() {
