@@ -15,12 +15,12 @@ public class BossController : Controller
 
     [Header("--- COMPONENTS ---")]
     [SerializeField] private Collider2D col = null;
-    [SerializeField] private Health health = null;
     [SerializeField] private Attacker attacker = null;
 
     [Header("--- STATES ---")]
     [SerializeField] private List<BossBaseState> attackStates = new();
     [SerializeField] private BossBaseState idleState = null;
+    [SerializeField] private BossBaseState deadState = null;
 
     [SerializeField] private BossBaseState currentState = null;
     private BossStateEnum currentStateEnum = BossStateEnum.NONE;
@@ -39,7 +39,9 @@ public class BossController : Controller
         }
     }
     
-    private void Start() {
+    protected override void Start() {
+        base.Start();
+        
         if (currentLevel == 0) {
             SwitchState(BossStateEnum.TUTORIAL);
             Debug.Log("SHOW");
@@ -54,9 +56,7 @@ public class BossController : Controller
             BeforeStartBoss?.Invoke();
         }
 
-        if (!IsDefeated()) {
-            health.ChangeMaxHealth(maxHealthLevels[GetCurrentLevel()]);
-        }
+        GameManager.Instance.OnPlayerDieEvent += () => SwitchState(BossStateEnum.PLAYERDEAD);
     }
 
     private void OnEnable() {
@@ -105,6 +105,9 @@ public class BossController : Controller
                 anim.SetBool("Dead", true);
                 health.SetHealth(0);
                 col.enabled = true;
+
+                Hitbox hitbox = GetComponentInChildren<Hitbox>();
+                if (hitbox) Destroy(hitbox.gameObject);
                 break;
             case BossStateEnum.NONE:
                 col.enabled = false;
@@ -119,6 +122,17 @@ public class BossController : Controller
                 health.canLoseHealth = false;
                 StartBossTutorial?.Invoke();
                 break;
+            case BossStateEnum.PLAYERDEAD:
+
+                currentState?.Exit();
+                lightContainer.SetActive(true);
+                rig.isKinematic = true;
+                rig.gravityScale = 0;
+                col.enabled = false;
+                health.canLoseHealth = false;
+                SwitchState(deadState, null);
+
+                break;
         }
     }
 
@@ -132,6 +146,10 @@ public class BossController : Controller
         rig.isKinematic = true;
         health.Reset();
         anim.SetBool("Dead", false);
+
+        if (!IsDefeated()) {
+            health.ChangeMaxHealth(maxHealthLevels[GetCurrentLevel()]);
+        }
     }
 
     private void OnDie() {
@@ -139,8 +157,6 @@ public class BossController : Controller
 
         currentState?.Exit();
         currentState = null;
-
-        Debug.Log("Dead");
 
         SwitchState(BossStateEnum.DEAD);
         col.enabled = true;
@@ -183,4 +199,4 @@ public class BossController : Controller
     }
 }
 
-public enum BossStateEnum { IDLE, ATTACKING, DEAD, NONE, TUTORIAL }
+public enum BossStateEnum { IDLE, ATTACKING, DEAD, NONE, TUTORIAL, PLAYERDEAD }

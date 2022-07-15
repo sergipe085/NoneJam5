@@ -22,6 +22,7 @@ public class BossUIManager : Singleton<BossUIManager>
 
         GameManager.Instance.OnStartBossEvent += GameManager_OnStartBoss;
         GameManager.Instance.OnEndBossEvent += GameManager_OnEndBoss;
+        GameManager.Instance.OnPlayerDieEvent += ClearBossUI;
 
         DOTween.Init(DOTween.defaultAutoKill);
     }

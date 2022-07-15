@@ -52,7 +52,7 @@ public class Health : Attackable
         }
     }
 
-    private bool IsDead() {
+    public bool IsDead() {
         return currentHealth <= 0;
     }
 

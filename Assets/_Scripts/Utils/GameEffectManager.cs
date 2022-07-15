@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using DG.Tweening;
+using System;
 
 public class GameEffectManager : Singleton<GameEffectManager>
 {
@@ -10,6 +12,7 @@ public class GameEffectManager : Singleton<GameEffectManager>
     private VolumeComponent currentPulseComponent = null;
 
     private LensDistortion ld = null;
+    private Vignette vg = null;
 
     private bool pulse = false;
     private float pulseForce = 0.0f;
@@ -18,6 +21,8 @@ public class GameEffectManager : Singleton<GameEffectManager>
 
     private void Start() {
         globalVolume.profile.TryGet<LensDistortion>(out ld);
+        globalVolume.profile.TryGet<Vignette>(out vg);
+        DOTween.Init();
     }
 
     private void Update() {
@@ -44,5 +49,14 @@ public class GameEffectManager : Singleton<GameEffectManager>
 
         this.pulseForce = pulseForce;
         this.pulseSpeed = pulseSpeed;
+    }
+
+    public void VignetteIntensityLerp(float target, float duration, Action OnComplete) {
+
+        DOTween.To(() => vg.intensity.value, (x) => vg.intensity.value = x, target, duration).OnComplete(() => OnComplete?.Invoke());
+    }
+
+    public void VignetteSmoothnessLerp(float target, float duration, Action OnComplete) {
+        DOTween.To(() => vg.smoothness.value, (x) => vg.smoothness.value = x, target, duration).OnComplete(() => OnComplete?.Invoke());
     }
 }

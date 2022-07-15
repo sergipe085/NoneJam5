@@ -12,7 +12,6 @@ public class PlayerController : Controller
     [SerializeField] private Mover mover = null;
     [SerializeField] private Attacker attacker = null;
     [SerializeField] private Dasher dasher = null;
-    [SerializeField] private Health health = null;
 
     private Vector2 moveInput = Vector2.zero;
     private Vector2 lookDirection = Vector2.zero;
@@ -33,6 +32,7 @@ public class PlayerController : Controller
 
     [Header("--- GERAL ---")]
     [SerializeField] private GameObject attackEffectPrefab = null;
+    public event Action OnDieEvent = null;
 
     private void OnEnable() {
         health.OnTakeDamage += HandleTakeDamage;
@@ -52,7 +52,9 @@ public class PlayerController : Controller
         }
     }
 
-    private void Start() {
+    protected override void Start() {
+        base.Start();
+
         health.Reset();
 
         GameManager.Instance.OnStartBossEvent += () => health.Reset();
@@ -220,10 +222,20 @@ public class PlayerController : Controller
     }
 
     private void OnDie() {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        rig.simulated = false;
+        rig.velocity = Vector2.zero;
+
+        GameEffectManager.Instance.VignetteIntensityLerp(1.0f, 2.0f, null);
+        GameEffectManager.Instance.VignetteIntensityLerp(1.0f, 2.0f, () => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
+        OnDieEvent?.Invoke();
+        GameManager.Instance.PlayerDie();
     }
 
-    public Health GetHealth() {
-        return health;
+    private IEnumerator OnDieEnumerator() {
+        
+
+        yield return new WaitForSeconds(1.0f);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

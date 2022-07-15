@@ -5,20 +5,21 @@ using UnityEngine;
 public class ObjectPool : Singleton<ObjectPool>
 {
     [SerializeField] private Bullet bulletPrefab = null;
-    [SerializeField] private Queue<Bullet> spawnedBullets = new();
-    [SerializeField] private Stack<Bullet> bulletsPool = new();
+    [SerializeField] private List<Bullet> bulletsPoolList = new();
     [SerializeField] private int maxBullets = 10;
 
     public Bullet SpawnBullet2(Vector2 position) {
         Bullet bullet;
 
-        if (bulletsPool.Count <= 0 || bulletsPool.Count < maxBullets) {
+        if (bulletsPoolList.Count <= 0 || bulletsPoolList.Count < maxBullets) {
             Bullet newBullet = Instantiate(bulletPrefab);
-            bulletsPool.Push(newBullet);
+            bulletsPoolList.Add(newBullet);
             bullet = newBullet;
         }
         else {
-            bullet = bulletsPool.Peek();
+            bullet = bulletsPoolList[0];
+            bulletsPoolList.Remove(bullet);
+            bulletsPoolList.Add(bullet);
         }
 
         bullet.gameObject.SetActive(true);

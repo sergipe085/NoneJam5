@@ -74,6 +74,7 @@ public class BossAttackStateFollow : BossBaseState
         if (hitbox) Destroy(hitbox.gameObject);
         rig.gravityScale = 1;
         bossController.GetCollider().isTrigger = false;
+        isActive = false;
     }
 
     private IEnumerator OnHit() {
@@ -95,7 +96,6 @@ public class BossAttackStateFollow : BossBaseState
 
         if (isActive) {
             Initialize();
-
         }
     }
 

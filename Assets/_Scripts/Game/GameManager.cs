@@ -11,6 +11,7 @@ public class GameManager : Singleton<GameManager>
 
     public event Action OnStartBossEvent = null;
     public event Action OnEndBossEvent = null;
+    public event Action OnPlayerDieEvent = null;
 
     protected override void Awake() {
         base.Awake();
@@ -69,5 +70,9 @@ public class GameManager : Singleton<GameManager>
             PlayerPrefs.SetInt("bossCurrentLevel", 0);
             currentBoss.SetCurrentLevel(0);
         }
+    }
+
+    public void PlayerDie() {
+        OnPlayerDieEvent?.Invoke();
     }
 }

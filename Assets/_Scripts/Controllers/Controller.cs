@@ -9,11 +9,18 @@ public class Controller : MonoBehaviour
     [SerializeField] protected Rigidbody2D rig = null;
     [SerializeField] protected GameFeelScale scale = null;
     [SerializeField] protected SpriteRenderer spriteRenderer = null;
+    [SerializeField] protected Health health = null;
 
     [Header("--- GERAL ---")]
+    [SerializeField] protected SoundContainerSO soundContainer = null;
     [SerializeField] protected ControllerProperties properties = null;
     [SerializeField] protected LayerMask groundLayer;
     protected int currentLevel = 0;
+
+    protected virtual void Start() {
+        health.OnDie += () => SoundManager.Instance.PlaySound(soundContainer.dieSounds.ToArray());
+        health.GetAttackEvent += () => SoundManager.Instance.PlaySound(soundContainer.hurtSounds.ToArray());
+    }
 
     public void AddForce(Vector2 direction, float force) {
         rig.AddForce(force * direction, ForceMode2D.Impulse);
@@ -33,5 +40,9 @@ public class Controller : MonoBehaviour
 
     public int GetCurrentLevel() {
         return currentLevel;
+    }
+
+    public Health GetHealth() {
+        return health;
     }
 }
