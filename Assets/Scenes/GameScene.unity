@@ -20149,6 +20149,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2080811012}
     m_Modifications:
+    - target: {fileID: 6151073754226969374, guid: c605d5c90e05e064cbe1267ce0c8902f, type: 3}
+      propertyPath: m_text
+      value: Menu
+      objectReference: {fileID: 0}
     - target: {fileID: 6151073754726107787, guid: c605d5c90e05e064cbe1267ce0c8902f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
