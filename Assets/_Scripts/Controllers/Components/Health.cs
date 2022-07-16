@@ -77,6 +77,7 @@ public class Health : Attackable
         currentHealth = maxHealth;
         OnReset?.Invoke();
         OnHealthChanged?.Invoke();
+        canLoseHealth = true;
     }
 
     public void ChangeMaxHealth(int newMaxHealth) {

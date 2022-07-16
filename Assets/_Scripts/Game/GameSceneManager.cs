@@ -9,16 +9,15 @@ public class GameSceneManager : Singleton<GameSceneManager>
 {
     [SerializeField] private Image transitionImage = null;
 
-    protected override void Awake() {
-        base.Awake();
-        DontDestroyOnLoad(this.gameObject);
-    }
+    private static bool isChanging = false;
 
     private void Start() {
         DOTween.Init();
     }
 
     public void LoadScene(string scene) {
+        if (isChanging) return;
+        isChanging = true;
         transitionImage.DOFade(1.0f, 1.0f).From(0.0f).OnComplete(() => {
             StartCoroutine(LoadSceneAsync(scene));
         });
@@ -42,5 +41,8 @@ public class GameSceneManager : Singleton<GameSceneManager>
 
             yield return null;
         }
+
+        SoundManager.Instance.ResumeMusic();
+        isChanging = false;
     }
 }

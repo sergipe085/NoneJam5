@@ -82,6 +82,7 @@ public class BossUIManager : Singleton<BossUIManager>
 
         foreach(char a in _bossName + " Level " + (currentBoss.GetCurrentLevel() + 1)) {
             bossName.text += a;
+
             yield return new WaitForSeconds(0.1f);
         }
 

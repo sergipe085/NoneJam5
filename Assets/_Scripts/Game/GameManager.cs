@@ -65,11 +65,6 @@ public class GameManager : Singleton<GameManager>
 
             StartBoss();
         }
-
-        if (Input.GetKeyDown(KeyCode.H)) {
-            PlayerPrefs.SetInt("bossCurrentLevel", 0);
-            currentBoss.SetCurrentLevel(0);
-        }
     }
 
     public void PlayerDie() {

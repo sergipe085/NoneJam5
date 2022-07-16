@@ -15,5 +15,6 @@ public class Clickable : MonoBehaviour, IPointerEnterHandler
 
     public void OnPointerEnter(PointerEventData eventData) {
         transform.DOPunchScale(hoverScale, 0.1f);
+        SoundManager.Instance.PlayButtonSound();
     }
 }

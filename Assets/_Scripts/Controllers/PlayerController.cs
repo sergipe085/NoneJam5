@@ -58,6 +58,7 @@ public class PlayerController : Controller
         health.Reset();
 
         GameManager.Instance.OnStartBossEvent += () => health.Reset();
+        GameManager.Instance.OnEndBossEvent += () => health.canLoseHealth = false;
     }
 
     private void Update() {
@@ -66,6 +67,8 @@ public class PlayerController : Controller
         jumpInput = Input.GetButtonDown("Jump");
         attackInput = Input.GetButtonDown("Fire1");
         dashInput = Input.GetButtonDown("Fire2");
+
+        if (health.IsDead()) return;
 
         CheckLand();
 
@@ -226,16 +229,8 @@ public class PlayerController : Controller
         rig.velocity = Vector2.zero;
 
         GameEffectManager.Instance.VignetteIntensityLerp(1.0f, 2.0f, null);
-        GameEffectManager.Instance.VignetteIntensityLerp(1.0f, 2.0f, () => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
+        GameEffectManager.Instance.VignetteIntensityLerp(1.0f, 2.0f, () => GameSceneManager.Instance.LoadScene("GameScene"));
         OnDieEvent?.Invoke();
         GameManager.Instance.PlayerDie();
-    }
-
-    private IEnumerator OnDieEnumerator() {
-        
-
-        yield return new WaitForSeconds(1.0f);
-
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

@@ -72,7 +72,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1305709705
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 740395043, guid: 4c3f6caeb3f39a04884bfdedd3ef4d9c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -199,6 +199,8 @@ MonoBehaviour:
   rig: {fileID: 6854562848874365583}
   scale: {fileID: 6854562848874365581}
   spriteRenderer: {fileID: 4624715559011214792}
+  health: {fileID: 2090474729}
+  soundContainer: {fileID: 11400000, guid: c8dac0ca2198f214ea63bb191f734ce0, type: 2}
   properties: {fileID: 11400000, guid: 29c509310b75dd64ea6fb106760be394, type: 2}
   groundLayer:
     serializedVersion: 2
@@ -206,7 +208,6 @@ MonoBehaviour:
   mover: {fileID: 6854562848874365618}
   attacker: {fileID: 6854562848874365619}
   dasher: {fileID: 6854562848874365616}
-  health: {fileID: 2090474729}
   attackEffectPrefab: {fileID: 4693169576119657651, guid: a7813a91b47b92f4db7710c57202f12b, type: 3}
 --- !u!114 &6854562848874365581
 MonoBehaviour:
@@ -283,9 +284,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 1193683808927106440, guid: bfdd75cf88f85984a9be263653ee70c5, type: 3}
-  maxHealth: 100
+  maxHealth: 15
   currentHealth: 0
   damageParticle: {fileID: 1193683808927106442, guid: bfdd75cf88f85984a9be263653ee70c5, type: 3}
+  canLoseHealth: 1
 --- !u!1 &6854562849469446990
 GameObject:
   m_ObjectHideFlags: 0

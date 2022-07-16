@@ -7,13 +7,14 @@ using DG.Tweening;
 public class PlayerHealthUI : MonoBehaviour
 {
     [SerializeField] private Slider playerHelthSlider = null;
-    [SerializeField] private GameObject playerImage = null;
+    [SerializeField] private RectTransform playerImage = null;
     [SerializeField] private Transform playerHealth = null;
 
     private void Start() {
         PlayerController.Instance.GetHealth().OnHealthChanged += PlayerController_OnHealthChanged;
         GameManager.Instance.OnStartBossEvent += ShowPlayerHealthVisual;
         GameManager.Instance.OnEndBossEvent += HidePlayerHealthVisual;
+        GameManager.Instance.OnPlayerDieEvent += ClearUI;
         PlayerController.Instance.GetHealth().OnTakeDamage += (pos) => playerImage.transform.DOShakeScale(0.2f);
 
         UpdateHealthVisual();
@@ -30,10 +31,14 @@ public class PlayerHealthUI : MonoBehaviour
 
     private void ShowPlayerHealthVisual() {
         playerHealth.gameObject.SetActive(true);
-        playerHealth.DOMoveY(550, 1.0f).From(1000).SetEase(Ease.InOutQuart);
+        playerHealth.DOLocalMoveY(0, 1.0f).From(1000).SetEase(Ease.OutCubic);
     }
 
     private void HidePlayerHealthVisual() {
-        playerHealth.DOMoveY(1000, 1.0f).From(550).SetEase(Ease.InOutQuart).OnComplete(() => playerHealth.gameObject.SetActive(false));
+        playerHealth.DOLocalMoveY(1000, 1.0f).From(0).SetEase(Ease.OutCubic).OnComplete(() => playerHealth.gameObject.SetActive(false));
+    }
+
+    private void ClearUI() {
+        gameObject.SetActive(false);
     }
 }

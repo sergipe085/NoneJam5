@@ -8,8 +8,10 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
     protected virtual void Awake() {
         if (Instance) {
-            Destroy(Instance.gameObject);
+            Destroy(this.gameObject);
         }
-        Instance = this as T;
+        else {
+            Instance = this as T;
+        }
     }
 }

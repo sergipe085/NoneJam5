@@ -7,8 +7,11 @@ using System;
 public class BossDialogueManager : MonoBehaviour
 {
     [SerializeField] private DialogueSO dialogueSO = null;
-    [SerializeField] private GameObject dialogueUI = null;
+    [SerializeField] private RectTransform dialogueUI = null;
     [SerializeField] private TMPro.TextMeshProUGUI text = null;
+
+    private Coroutine showDialogueCoroutine = null;
+    private string currentMsg = null;
 
     private void Start() {
         DOTween.Init();
@@ -23,8 +26,18 @@ public class BossDialogueManager : MonoBehaviour
         BossUIManager.Instance.StopHiding += ShowDialogue;
     }
 
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.E)) {
+            if (showDialogueCoroutine != null) {
+                StopCoroutine(showDialogueCoroutine);
+                BossUIManager.Instance.isChanging = false;
+                text.text = currentMsg;
+            }
+        }
+    }
+
     private void ShowTutorialDialogue() {
-        StartCoroutine(ShowDialogEnumerator(dialogueSO.tutorialDialogue));
+        CallCoroutine(dialogueSO.tutorialDialogue);
         //"Move (wasd, seta) \nPula (z, l, espaco) \nDash - (k, x, mouse1, lshift) \nAtaca (j, c, mouse0).\nTreine o quanto quiser e depois aperte (E) para batalhar comigo."
     }
 
@@ -36,28 +49,33 @@ public class BossDialogueManager : MonoBehaviour
 
         int curLevel = BossController.Instance.GetCurrentLevel();
         if (dialogueSO.dialogues[curLevel] != null) {
-            StartCoroutine(ShowDialogEnumerator(dialogueSO.dialogues[curLevel]));
+            CallCoroutine(dialogueSO.dialogues[curLevel]);
         }
     }
 
     private void ShowPlayerWin() {
-        StartCoroutine(ShowDialogEnumerator("Oh, voce me derrotou!! Foi uma boa luta. Aperte (E) para ir ao menu."));
+        CallCoroutine("Oh, voce me derrotou!! Foi uma boa luta. Aperte (E) para ir ao menu.");
     }
 
     public void HideDialogue() {
         StartCoroutine(HideDialogEnumerator());
     }
 
+    private void CallCoroutine(string msg) {
+        showDialogueCoroutine = StartCoroutine(ShowDialogEnumerator(msg));
+        currentMsg = msg + "\nAperte(E) para continuar...";
+    }
+
     private IEnumerator ShowDialogEnumerator(string message) {
 
         BossUIManager.Instance.isChanging = true;
-        dialogueUI.SetActive(false);
+        dialogueUI.gameObject.SetActive(false);
         text.text = "";
 
         yield return new WaitForSeconds(0.5f);
 
-        dialogueUI.transform.DOMoveY(200, 1.0f).From(-1000f);
-        dialogueUI.SetActive(true);
+        dialogueUI.DOLocalMoveY(-190, 1.0f).SetEase(Ease.OutCubic).From(-1000f);
+        dialogueUI.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(1.0f);
 
@@ -72,8 +90,8 @@ public class BossDialogueManager : MonoBehaviour
     }
 
     private IEnumerator HideDialogEnumerator() {
-        dialogueUI.transform.DOMoveY(-1000f, 1.0f).OnComplete(() => { 
-            dialogueUI.SetActive(false);
+        dialogueUI.transform.DOLocalMoveY(-1000f, 1.0f).SetEase(Ease.OutCubic).OnComplete(() => { 
+            dialogueUI.gameObject.SetActive(false);
             text.text = "";
         });
         yield return null;
