@@ -6,6 +6,10 @@ public class GameMenuManager : MonoBehaviour
 {
     [SerializeField] private GameObject menuUiObject = null;
 
+    private void Start() {
+        menuUiObject.SetActive(false);
+    }
+
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Escape)) {
             ChangeMenuStatus(!menuUiObject.activeSelf);

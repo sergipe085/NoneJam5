@@ -9,7 +9,7 @@ public class Clickable : MonoBehaviour, IPointerEnterHandler
     [SerializeField] private Vector3 hoverScale = Vector3.zero;
     [SerializeField] private float animDuration = 0.1f;
 
-    private void Start() {
+    private void Awake() {
         DOTween.Init();
     }
 

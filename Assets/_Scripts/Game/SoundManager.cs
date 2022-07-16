@@ -19,7 +19,16 @@ public class SoundManager : Singleton<SoundManager>
     protected override void Awake() {
         base.Awake();
         SceneManager.sceneLoaded += (scene, mode) => Initialize();
+        
         initialVolume = audioSourceMusic.volume;
+    }
+
+    private void Start() {
+        audioSourceMusic.volume = OpcoesManager.Instance.GetMusicVolume();
+        OpcoesManager.Instance.OnMusicVolumeSliderChanged += (volume) => audioSourceMusic.volume = volume;
+
+        audioSourceEffect.volume = OpcoesManager.Instance.GetSoundEffectVolume();
+        OpcoesManager.Instance.OnSoundEffectVolumeSliderChanged += (volume) => audioSourceEffect.volume = volume;
     }
 
     private void Initialize() {
@@ -34,6 +43,12 @@ public class SoundManager : Singleton<SoundManager>
         };
         GameManager.Instance.OnPlayerDieEvent += () => StopMusic();
         if (!audioSourceMusic.isPlaying && !BossController.Instance.IsDefeated()) StartCoroutine(StartMusicEnumerator());
+
+        audioSourceMusic.volume = OpcoesManager.Instance.GetMusicVolume();
+        OpcoesManager.Instance.OnMusicVolumeSliderChanged += (volume) => audioSourceMusic.volume = volume;
+
+        audioSourceEffect.volume = OpcoesManager.Instance.GetSoundEffectVolume();
+        OpcoesManager.Instance.OnSoundEffectVolumeSliderChanged += (volume) => audioSourceEffect.volume = volume;
     }
 
     public void PlaySound(AudioClip clip) {
@@ -71,12 +86,14 @@ public class SoundManager : Singleton<SoundManager>
 
         audioSourceMusic.Play();
 
-        while(audioSourceMusic.volume < initialVolume) {
+        float volume = OpcoesManager.Instance.GetMusicVolume();
+
+        while(audioSourceMusic.volume < volume) {
             audioSourceMusic.volume += Time.deltaTime;
             yield return null;
         }
 
-        audioSourceMusic.volume = initialVolume;
+        audioSourceMusic.volume = volume;
     }
 
     private IEnumerator StopMusicEnumerator() {
@@ -93,12 +110,14 @@ public class SoundManager : Singleton<SoundManager>
         audioSourceMusic.clip = themeSong;
         audioSourceMusic.Play();
 
-        while(audioSourceMusic.volume < initialVolume) {
+        float volume = OpcoesManager.Instance.GetMusicVolume();
+
+        while(audioSourceMusic.volume < volume) {
             audioSourceMusic.volume += Time.deltaTime;
             yield return null;
         }
 
-        audioSourceMusic.volume = initialVolume;
+        audioSourceMusic.volume = volume;
     }
 
     public void PauseMusic() {
