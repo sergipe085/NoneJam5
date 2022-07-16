@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class OpcoesManager : Singleton<OpcoesManager>
@@ -12,9 +13,11 @@ public class OpcoesManager : Singleton<OpcoesManager>
     public event Action<float> OnMusicVolumeSliderChanged;
     public event Action<float> OnSoundEffectVolumeSliderChanged;
 
-    protected override void Awake() {
-        base.Awake();
-        
+    private void Start() {
+        Initialize();
+    }
+
+    private void Initialize() {
         musicVolumeSlider.onValueChanged.AddListener(SaveMusicVolume);
 
         soundEffectVolumeSlider.onValueChanged.AddListener(SaveSoundEffectVolume);
@@ -29,6 +32,8 @@ public class OpcoesManager : Singleton<OpcoesManager>
 
         soundEffectVolumeSlider.value = GetSoundEffectVolume();
         musicVolumeSlider.value = GetMusicVolume();
+        SoundManager.Instance.audioSourceEffect.volume = GetSoundEffectVolume();
+        SoundManager.Instance.audioSourceMusic.volume = GetMusicVolume();
 
         gameObject.SetActive(false);
     }
@@ -36,6 +41,7 @@ public class OpcoesManager : Singleton<OpcoesManager>
     private void SaveMusicVolume(float volume) {
         PlayerPrefs.SetFloat("MusicVolume", volume);
         OnMusicVolumeSliderChanged?.Invoke(volume);
+        SoundManager.Instance.audioSourceMusic.volume = volume;
     }
 
     public float GetMusicVolume() {
@@ -45,6 +51,7 @@ public class OpcoesManager : Singleton<OpcoesManager>
     private void SaveSoundEffectVolume(float volume) {
         PlayerPrefs.SetFloat("SoundEffectVolume", volume);
         OnSoundEffectVolumeSliderChanged?.Invoke(volume);
+        SoundManager.Instance.audioSourceEffect.volume = volume;
     }
 
     public float GetSoundEffectVolume() {
