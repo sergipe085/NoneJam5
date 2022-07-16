@@ -138,6 +138,7 @@ public class BossController : Controller
 
     public void StartBattle() {
         SwitchState(idleState, attackStates[Mathf.Clamp(currentLevel, 0, attackStates.Count - 1)]);
+        SwitchState(BossStateEnum.IDLE);
         startBattleEvent?.Invoke();
     }
 

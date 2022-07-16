@@ -2388,6 +2388,14 @@ PrefabInstance:
       propertyPath: buttonSound
       value: 
       objectReference: {fileID: 8300000, guid: ffb1d62d30ccbd34ea933f7de79d2717, type: 3}
+    - target: {fileID: 7764804419682341661, guid: f2fa44c9cb5f6d44db3775b200832275, type: 3}
+      propertyPath: Loop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764804419682341663, guid: f2fa44c9cb5f6d44db3775b200832275, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2fa44c9cb5f6d44db3775b200832275, type: 3}
 --- !u!4 &2033046774 stripped
