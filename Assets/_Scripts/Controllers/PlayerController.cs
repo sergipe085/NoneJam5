@@ -84,6 +84,8 @@ public class PlayerController : Controller
     }
 
     private void FixedUpdate() {
+        if (health.IsDead()) return;
+
         if (dasher && dasher.IsDashing) return;
 
         HandleMovement();

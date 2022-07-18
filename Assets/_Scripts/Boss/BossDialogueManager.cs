@@ -63,7 +63,7 @@ public class BossDialogueManager : MonoBehaviour
 
     private void CallCoroutine(string msg) {
         showDialogueCoroutine = StartCoroutine(ShowDialogEnumerator(msg));
-        currentMsg = msg + "\nAperte(E) para continuar...";
+        currentMsg = msg;
     }
 
     private IEnumerator ShowDialogEnumerator(string message) {
@@ -80,7 +80,7 @@ public class BossDialogueManager : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
 
         string curText = "";
-        foreach (char a in message + "\nAperte(E) para continuar...") {
+        foreach (char a in message) {
             curText += a;
             text.text = curText;
             yield return new WaitForSeconds(0.04f);
